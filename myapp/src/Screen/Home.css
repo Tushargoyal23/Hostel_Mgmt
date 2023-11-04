@@ -1,0 +1,32 @@
+#opt1{
+    margin-left: 2%;
+    max-width: 40%;
+}
+#opt2{
+    margin-left: 35%;
+    max-width: 40%;
+}
+#opt1:hover{
+    max-width: 45%;
+}
+#opt2:hover{
+    max-width: 45%;
+}
+#options{
+    margin-top: 5%;
+}
+@media (max-width: 768px) {
+    #opt1 {
+        max-width: 90%;
+        margin-left: 5%;
+    }
+}
+@media (max-width: 768px) {
+    #opt2 {
+        max-width: 90%;
+        margin-left: 5%;
+    }
+  }
+#line{
+    text-decoration: none;
+}
