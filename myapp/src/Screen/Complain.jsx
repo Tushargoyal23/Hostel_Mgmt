@@ -11,6 +11,7 @@ export default function Complain() {
 {/* heading */}
                 <div id='comp_head'>Complains</div>
 {/* complain posts */}
+{/* complain posts */}
                 <div id='comp_post'>
                     <Post title='Hostel safety' url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPElmzWCeKaGAm9lOTJTYPJ9PqVQKVisTmpQ&usqp=CAU'></Post>
                     <Post title='Mess food Quality' url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRv9uSq5LsREIGwRwU5kLeXBpA1CRQ8AB_ShQ&usqp=CAU'></Post>
