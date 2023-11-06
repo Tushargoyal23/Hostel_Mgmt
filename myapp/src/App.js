@@ -11,6 +11,8 @@ import Complain from './Screen/Complain';
 import Response from './Screen/Response';
 import Mess from './Screen/Mess';
 import Hostel from './Screen/Hostel';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
 
 function App() {
   return (
@@ -22,6 +24,9 @@ function App() {
           <Route exact path='/response' element={<Response></Response>}></Route>
           <Route exact path='/mess' element={<Mess></Mess>}></Route>
           <Route exact path='/hostel' element={<Hostel></Hostel>}></Route>
+          <Route exact path='/login' element={<Login></Login>}></Route>
+          <Route exact path='/createuser' element={<SignUp></SignUp>}></Route>
+  
         </Routes>
       </div>
     </Router>

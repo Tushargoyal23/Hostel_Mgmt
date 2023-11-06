@@ -27,10 +27,14 @@ export default function Navbar() {
                         </ul>
                     </div>
                     <div id='but'>
-                        <button className='btn'>Login</button>
+                        <Link to ='/login'>
+                            <button className='btn' >Login</button>
+                        </Link>
                     </div>
                     <div id='but'>
-                        <button className='btn'>SignUp</button>
+                    <Link to ='/createuser'>
+                            <button className='btn' >SignUp</button>
+                        </Link>
                     </div>
                 </div>
             </nav>

@@ -1,0 +1,23 @@
+body{
+    text-align: left;
+    background-color: black;
+    color: aliceblue;
+}
+#main{
+    background-image: url(https://img.freepik.com/premium-vector/network-connection-background-abstract-style_23-2148875738.jpg);
+    background-color: rgb(44, 47, 46);
+    height: 600px;
+    width: 400px;
+    position: absolute;
+    margin-top: 10%;
+    margin-left: 37%;
+    border-color: azure;
+    border: solid;
+    border-radius: 4%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+#info{
+    background-color: black;
+    color: azure;
+}
