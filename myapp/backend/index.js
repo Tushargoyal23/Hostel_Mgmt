@@ -1,20 +1,11 @@
-// const express = require('express')
-// const app = express()
-// const port = 5000
-// const mongodb = require('./db')
-// mongodb();
-// app.get('/', (req, res) => {
-//   res.send('Hello World!')
-// })
-
-// app.listen(port, () => {
-//   console.log(`Example app listening on port ${port}`)
-// })
 const express = require('express');
 const app = express();
 const port = 5000;
 const connectToMongoDB = require('./db');
 
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
 // Connect to MongoDB
 connectToMongoDB()
   .then(() => {
@@ -25,10 +16,8 @@ connectToMongoDB()
   .catch((err) => {
     console.error('Error connecting to MongoDB:', err);
   });
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+  app.use(express.json());
+app.use("/api",require("./Routes/CreateUser"));
 
 // Error handling for Express
 app.use((err, req, res, next) => {
