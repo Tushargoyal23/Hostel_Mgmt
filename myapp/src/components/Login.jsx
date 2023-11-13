@@ -14,7 +14,7 @@ export default function Login() {
         headers:{
           'Content-Type': 'application/json'
         },
-        body:JSON.stringify({name :credentials.name , email:credentials.email , location:credentials.location , password:credentials.password})
+        body:JSON.stringify({name :credentials.name , email:credentials.email , hostel:credentials.hostel , password:credentials.password})
   
       })
       const json = await response.json();
