@@ -1,0 +1,13 @@
+#comp_head{
+    background-color:aliceblue;
+    font-size: 3em;
+    border: solid;
+    text-align: center;
+}
+#comp{
+    /* background-color: aqua; */
+    margin-top:5%;
+}
+#comp_post{
+    margin-left: 15%;
+}
