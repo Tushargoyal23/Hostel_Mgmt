@@ -81,10 +81,10 @@ function Mess() {
           <tr>
             <th scope="col">#</th>
             <th scope="col">Day</th>
-            <th scope="col">Breakfast</th>
-            <th scope="col">Lunch</th>
-            <th scope="col">Dinner</th>
-            <th scope="col">Evening</th>
+            <th scope="col">Breakfast(7:30 am to 9:30 am)</th>
+            <th scope="col">Lunch(12:30 pm to 2:30 pm)</th>
+            <th scope="col">Evening(5:30 pm to 7:00 pm)</th>
+            <th scope="col">Dinner(8:00 pm to 9:30 pm)</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
@@ -113,15 +113,15 @@ function Mess() {
                   <td>
                     <input
                       type="text"
-                      value={updatedMenu.dinner}
-                      onChange={(e) => setUpdatedMenu({ ...updatedMenu, dinner: e.target.value })}
+                      value={updatedMenu.evening}
+                      onChange={(e) => setUpdatedMenu({ ...updatedMenu, evening: e.target.value })}
                     />
                   </td>
                   <td>
                     <input
                       type="text"
-                      value={updatedMenu.evening}
-                      onChange={(e) => setUpdatedMenu({ ...updatedMenu, evening: e.target.value })}
+                      value={updatedMenu.dinner}
+                      onChange={(e) => setUpdatedMenu({ ...updatedMenu, dinner: e.target.value })}
                     />
                   </td>
                   <td>
@@ -139,13 +139,13 @@ function Mess() {
                   <td>{Array.isArray(dayMenu.meals.breakfast)
                     ? dayMenu.meals.breakfast.join(', ')
                     : dayMenu.meals.breakfast}</td>
-                  <td>{Array.isArray(dayMenu.meals.breakfast)
+                  <td>{Array.isArray(dayMenu.meals.lunch)
                     ? dayMenu.meals.lunch.join(', ')
                     : dayMenu.meals.lunch}</td>
-                  <td>{Array.isArray(dayMenu.meals.breakfast)
+                  <td>{Array.isArray(dayMenu.meals.evening)
                     ? dayMenu.meals.evening.join(', ')
                     : dayMenu.meals.evening}</td>
-                  <td>{Array.isArray(dayMenu.meals.breakfast)
+                  <td>{Array.isArray(dayMenu.meals.dinner)
                     ? dayMenu.meals.dinner.join(', ')
                     : dayMenu.meals.dinner}</td>
                   <td>
