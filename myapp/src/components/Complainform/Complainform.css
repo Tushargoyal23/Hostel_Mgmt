@@ -1,0 +1,25 @@
+#form_details{
+    margin-top: 5%;
+    /* background-color: aliceblue; */
+    background-image: url(https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcm00NTItZi0wMTQuanBn.jpg);
+    color: black;
+    font-size: larger;
+}
+label{
+    background-color: antiquewhite;
+}
+#content{
+    margin-top: 2%;
+    margin-left: 2.5%;
+    max-width: 95%;
+}
+#complain_head{
+    /* background-color: azure; */
+/* color: rgb(236, 131, 61); */
+font-size: 4rem; /* Adjust the font size as needed */
+font-weight: bold; /* Optional: Make the text bold for better visibility */
+color: #fff; /* Set the text color */
+-webkit-text-stroke: 1px #000; /* WebKit browsers (Chrome, Safari) */
+text-stroke: 1px #000;
+
+}

@@ -1,29 +1,24 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const { Schema } = mongoose; // Use 'Schema' with an uppercase 'S'
-
-const userSchema = new Schema({
-    name: {
+// creating a schema 
+const UserSchema = new Schema({
+    name : {
         type: String,
-        required: true
+        required:true
     },
-    hostel: {
+    location:{
         type: String,
-        required: true
+        required:true
     },
-  
-    password: {
+    email :{
         type: String,
-        required: true
+        required:true
     },
-    isAdmin:{
-        type :Boolean,
-        default:false,
-    },
-    email:{
-        type:String,
-        required:true,
+    password :{
+        type: String,
+        required:true
     }
 });
 
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model('user' , UserSchema)
