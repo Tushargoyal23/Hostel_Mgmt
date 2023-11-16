@@ -18,9 +18,9 @@ export default function Complainform() {
         })
         const json = await response.json();
         //console.log(json);
-        console.log(json.Success);
+        
         if (!json.Success) {
-            alert("enter valid credentials")
+            alert("Enter a valid email")
         }
         if (json.Success) {
             alert("complain submitted")

@@ -14,12 +14,18 @@ router.post('/addcomplain',[
         return res.status(400).json({errors : errors.array()});
     }
     try{
+        const user = await Details.findOne({ email: req.body.email });
+        if(!user){
+            return res.json({  Success: false });
+        }
         await Details.create({
             name:req.body.name,
             title:req.body.title,
             email:req.body.email,
             description:req.body.description
         })
+        
+        
         res.json({Success:true});
     }catch (error){
         console.log(error);
