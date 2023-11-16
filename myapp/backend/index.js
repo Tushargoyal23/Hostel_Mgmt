@@ -13,6 +13,7 @@ app.use('/api',require('./Router/Complainadded'));
 app.use('/api',require('./Router/Displaydata'));
 app.use('/api',require('./Routes/CreateUser'));
 app.use('/api',require('./Routes/Loginuser'));
+app.use('/api',require('./Router/Edit_menu'))
 // Create a Complain model
 
 app.listen(port, () => {

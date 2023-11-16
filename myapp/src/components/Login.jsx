@@ -23,7 +23,7 @@ export default function Login() {
         alert("enter valid credentials")
       }
       if(json.success){
-        localStorage.setItem("authToken" , json.authToken);
+        localStorage.setItem("token" , json.token);
         // console.log(localStorage.getItem("authToken"));
         navigate('/');
       }

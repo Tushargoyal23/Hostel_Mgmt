@@ -21,7 +21,7 @@ export default function ComplainList() {
     
     const columns = [
       {
-        title: "Title",
+        title: "title",
         dataIndex: "title",
       }, 
       

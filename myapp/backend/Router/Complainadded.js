@@ -6,7 +6,7 @@ router.post('/addcomplain',[
 
     body('email').isEmail(),
     body('name').isLength({min: 3}),
-    body('Title').isLength({min: 3}),
+    body('title').isLength({min: 3}),
     
 ] , async (req , res) =>{
     const errors = validationResult(req);
