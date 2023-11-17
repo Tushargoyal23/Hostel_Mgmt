@@ -7,7 +7,7 @@ const UserSchema = new Schema({
         type: String,
         required:true
     },
-    location:{
+    hostel:{
         type: String,
         required:true
     },
