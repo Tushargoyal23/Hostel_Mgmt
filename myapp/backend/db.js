@@ -14,6 +14,8 @@ const MongoDB = async () => {
     global.userData = fetched_data;
     global.ComplainData = Complain_data;
     global.MenuData = Menu_data;
+// const MongoUrl = 'mongodb+srv://Tushar:Tushar@23@cluster0.anjje3w.mongodb.net/mydatabase?retryWrites=true&w=majority';
+
   } catch (error) {
     console.error('Failed to connect to MongoDB:', error);
   }
