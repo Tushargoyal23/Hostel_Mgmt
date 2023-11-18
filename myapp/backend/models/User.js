@@ -7,9 +7,10 @@ const UserSchema = new Schema({
         type: String,
         required:true
     },
-    location:{
+    hostel:{
         type: String,
-        required:true
+        required:true,
+        enum: ['Tandon', 'Malviya', 'Tilak']
     },
     email :{
         type: String,
@@ -18,7 +19,7 @@ const UserSchema = new Schema({
     password :{
         type: String,
         required:true
-    }
+    }    
 });
 
 module.exports = mongoose.model('user' , UserSchema)

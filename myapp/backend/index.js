@@ -9,10 +9,13 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 app.use(express.json())
-// app.use('/api',require('./Router/Complainadded'));
+app.use('/api',require('./Router/Complainadded'));
 
+app.use('/api',require('./Router/MessMember'));
 
 app.use('/api',require('./Router/Edit_menu'));
+
+app.use('/api',require('./Router/MessCommitee'));
 
 // Create a Complain model
 const Complain = require('./models/Details');

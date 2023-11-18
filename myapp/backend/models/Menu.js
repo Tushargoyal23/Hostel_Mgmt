@@ -23,6 +23,11 @@ const menuSchema = new mongoose.Schema({
       type: String,
       required: true
     }]
+  },
+  hostel:{
+    type: String,
+    required: true,
+    enum: ['Tandon', 'Malviya', 'Tilak']
   }
 });
 
