@@ -17,10 +17,10 @@ export default function Signup() {
     })
     const json = await response.json();
     console.log(json);
-    if(json.success){
+    if(!json.success){
       alert("enter valid credentials")
     }
-    if(!json.success){
+    if(json.success){
       // localStorage.setItem("authToken" , json.authToken);
       // console.log(localStorage.getItem("authToken"));
       navigate('/login');

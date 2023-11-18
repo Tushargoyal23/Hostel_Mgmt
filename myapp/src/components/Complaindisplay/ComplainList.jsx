@@ -1,20 +1,36 @@
 import React, { useState,useEffect } from 'react'
-
+import { message, Table } from "antd";
+import axios from "axios";
 export default function ComplainList() {
     const [complains , setcomplain] = useState([])
+    const getComplaints= async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/complaindata")
+        if (res.data.success) {
+          setcomplain(res.data.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     useEffect(() => {
-        // Fetch complaints from the API endpoint
-        fetch('/api/complaindata')
-          .then((response) => response.json())
-          .then((data) => setcomplain(data))
-          .catch((error) => console.error('Error fetching complaints:', error));
-      }, []);
-  return (
-    <div>
-      <div>
-      <h2>Complaints</h2>
-      {console.log(complains)}
-    </div>
-    </div>
-  )
-}
+        getComplaints();
+    }, []);
+      
+    
+    const columns = [
+      {
+        title: "title",
+        dataIndex: "title",
+      }, 
+      
+    ];
+  
+    return (
+     <div>
+        <h1>Complain</h1>
+        <Table columns={columns} dataSource={complains} />
+        </div>
+    );
+  };

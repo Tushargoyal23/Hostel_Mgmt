@@ -11,16 +11,18 @@ export default function Complainform() {
         const response = await fetch('http://localhost:5000/api/addcomplain', {
             method: 'POST',
             headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ name: credentials.name, email: credentials.email, title: credentials.title, description: credentials.description})
         })
         const json = await response.json();
-        console.log(json);
-        if (json.success) {
-            alert("enter valid credentials")
+        //console.log(json);
+        
+        if (!json.Success) {
+            alert("Enter a valid email")
         }
-        if (!json.success) {
+        if (json.Success) {
             alert("complain submitted")
             navigate('/complain');
         }
