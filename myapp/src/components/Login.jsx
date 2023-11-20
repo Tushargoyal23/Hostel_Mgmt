@@ -23,6 +23,7 @@ export default function Login() {
       }
       if(json.success){
         localStorage.setItem("token" , json.token);
+
         console.log(json.role);
         localStorage.setItem("role",json.role);
        
@@ -33,6 +34,7 @@ export default function Login() {
         
     //console.log(localStorage.getItem("role",credentials.role));
         navigate('/');
+
       }
     }
     const Onchange = (event) =>{

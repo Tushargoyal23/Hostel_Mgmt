@@ -8,3 +8,11 @@
 #but{
     margin-left:5%;
 }
+#profile_img{
+   max-width: 20%; 
+   border: solid;
+   border-color: black;
+}
+#img1{
+    width: 100px;
+}

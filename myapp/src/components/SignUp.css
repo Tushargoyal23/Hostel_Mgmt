@@ -1,7 +1,7 @@
 body{
     text-align: left;
     background-color: black;
-    color: aliceblue;
+    color: rgb(90, 91, 92);
 }
 #main{
     background-image: url(https://img.freepik.com/premium-vector/network-connection-background-abstract-style_23-2148875738.jpg);
@@ -11,7 +11,7 @@ body{
     position: absolute;
     margin-top: 10%;
     margin-left: 37%;
-    border-color: azure;
+    border-color: rgb(229, 238, 238);
     border: solid;
     border-radius: 4%;
     padding-top: 1%;
@@ -20,4 +20,7 @@ body{
 #info{
     background-color: black;
     color: azure;
+}
+#elements{
+    color: black;
 }

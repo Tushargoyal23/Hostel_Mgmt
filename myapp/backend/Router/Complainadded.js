@@ -2,8 +2,13 @@ const express = require('express');
 const router = express.Router()
 const Details = require('../models/Details') 
 const { body , validationResult } = require('express-validator');
-router.post('/addcomplain',[
+const authenticateUser = require('../Malware');
+// Save data to local storage
 
+// Retrieve data from local storage
+
+router.post('/addcomplain',[
+    
     body('email').isEmail(),
     body('name').isLength({min: 3}),
     body('title').isLength({min: 3}),
@@ -14,6 +19,7 @@ router.post('/addcomplain',[
         return res.status(400).json({errors : errors.array()});
     }
     try{
+        {console.log(authenticateUser)}
         const user = await Details.findOne({ email: req.body.email });
         if(!user){
             return res.json({  Success: false });
@@ -23,9 +29,11 @@ router.post('/addcomplain',[
             name:req.body.name,
             title:req.body.title,
             email:req.body.email,
+
             description:req.body.description,
             hostel:req.body.hostel
             
+
         })
         
         
