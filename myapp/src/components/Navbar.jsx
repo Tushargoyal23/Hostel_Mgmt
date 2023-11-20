@@ -5,8 +5,10 @@ export default function Navbar() {
     const navigate=useNavigate();
     const logouthandle=(e)=>{
        e.preventDefault();
+
        localStorage.clear();
        navigate("/");
+
      }
     return (
         <div id='Navbar'>

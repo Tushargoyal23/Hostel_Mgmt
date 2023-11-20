@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar'
 import './Mess.css'
-import { Link } from 'react-router-dom'
+import { Link, json } from 'react-router-dom'
 function Mess() {
   const [menuData, setMenuData] = useState([]);
   const [editingDay, setEditingDay] = useState(null);
@@ -29,9 +29,8 @@ function Mess() {
 
   const handleUpdateMenu = async () => {
     try {
-      // Send a PUT request to update the menu for the selected day
       const updateResponse = await fetch(`http://localhost:5000/api/update-menu/${editingDay}`, {
-        method: 'POST', // Assuming you're using POST for updates, adjust accordingly
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -40,7 +39,7 @@ function Mess() {
           meals: updatedMenu,
         }),
       });
-
+      console.log("");
       if (updateResponse.ok) {
         console.log(`Menu updated successfully for ${editingDay}`);
         // Update the state with the edited data
@@ -67,6 +66,150 @@ function Mess() {
   };
 
 
+  //for mess-members
+  const [members, setMembers] = useState([]);
+  const [editingMembers, setEditingMembers] = useState({});
+  const [updatedMember, setUpdatedMember] = useState({
+    name: '',
+    post: '',
+  });
+  const [addingMember, setAddingMember] = useState(false);
+  const [newMember, setNewMember] = useState({
+    name: '',
+    post: '',
+    hostel: '',
+  });
+
+
+  useEffect(() => {
+    // Fetch members from the API when the component mounts
+    // fetchMembers();
+    fetch('http://localhost:5000/api/mess-members')
+      .then(response => response.json())
+      .then(members => setMembers(members))
+      .catch(error => console.error('Error fetching menu data:', error));
+  }, []);
+
+  const fetchMembers = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/mess-members');
+      const data = await response.json();
+      setMembers(data);
+      setEditingMembers({}); // Reset editing state when fetching new data
+    } catch (error) {
+      console.error('Error fetching members:', error);
+    }
+  }
+
+  const handleEditClick = (member) => {
+    setEditingMembers((prevEditingMembers) => ({
+      ...prevEditingMembers,
+      [member.id]: { ...member },
+    }));
+    // setEditingMembers(member);
+    // Initialize the updatedMenu state with the current menu data for the selected day
+    const currentMem = members.find(mem => mem.id === member.id);
+    setUpdatedMember(currentMem);
+  };
+
+  const handleSave = async (editedMember) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/update-mess-member/${editedMember.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: editedMember.name,
+          post: editedMember.post
+        }),
+      });
+
+      if (response.ok) {
+        console.log(`Member ${editedMember.id} updated successfully`);
+        // Fetch updated members from the API
+        setMembers(prevMemberData => {
+          const updatedMemberData = prevMemberData.map(mem => {
+            if (mem.id === editedMember.id) {
+              return {
+                ...mem,
+                name: editedMember.name,
+                post: editedMember.post
+              };
+            }
+            return mem;
+          });
+          return updatedMemberData;
+        });
+        // Reset the editing state
+        setEditingDay(null);
+      } else {
+        console.error(`Failed to update member ${editedMember.id}`);
+      }
+    } catch (error) {
+      console.error('Error updating member:', error);
+    }
+  };
+
+  const handleCancelEdit = (memberId) => {
+    setEditingMembers((prevEditingMembers) => {
+      const { [memberId]: _, ...rest } = prevEditingMembers;
+      return rest;
+    });
+  };
+
+  const handleAddMemberClick = () => {
+    setAddingMember(true);
+  };
+
+  const handleAddMember = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/add-mess-member', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newMember),
+      });
+
+      if (response.ok) {
+        console.log('Member added successfully');
+        // Fetch updated members from the API
+        fetchMembers();
+        setAddingMember(false);
+        setNewMember({
+          name: '',
+          post: '',
+          dateOfJoining: '',
+        });
+      } else {
+        console.error('Failed to add member');
+      }
+    } catch (error) {
+      console.error('Error adding member:', error);
+    }
+  };
+
+  const handleCancelAddMember = () => {
+    setAddingMember(false);
+    setNewMember({
+      name: '',
+      post: '',
+      dateOfJoining: '',
+    });
+  };
+
+  const handleEditChange = (memberId, field, value) => {
+    setEditingMembers((prevEditingMembers) => ({
+      ...prevEditingMembers,
+      [memberId]: {
+        ...prevEditingMembers[memberId],
+        [field]: value,
+      },
+    }));
+  };
+
+  
   return (
     <>
       <div>
@@ -75,95 +218,100 @@ function Mess() {
       <div className='container' id='head'>
         <h1><u>Mess Menu</u></h1>
       </div>
-    <div className='container'>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Day</th>
-            <th scope="col">Breakfast(7:30 am to 9:30 am)</th>
-            <th scope="col">Lunch(12:30 pm to 2:30 pm)</th>
-            <th scope="col">Evening(5:30 pm to 7:00 pm)</th>
-            <th scope="col">Dinner(8:00 pm to 9:30 pm)</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {menuData.map((dayMenu, index) => (
-            <tr key={dayMenu.day}>
-              <th scope="row">{index + 1}</th>
-              <td>{dayMenu.day}</td>
-              {/* Render editable cells if the day is being edited */}
-              {editingDay === dayMenu.day ? (
-                <>
-                  <td>
-                    <input
-                      type="text"
-                      value={updatedMenu.breakfast}
-                      onChange={(e) => setUpdatedMenu({ ...updatedMenu, breakfast: e.target.value })}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      value={updatedMenu.lunch}
-                      onChange={(e) => setUpdatedMenu({ ...updatedMenu, lunch: e.target.value })}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      value={updatedMenu.evening}
-                      onChange={(e) => setUpdatedMenu({ ...updatedMenu, evening: e.target.value })}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      value={updatedMenu.dinner}
-                      onChange={(e) => setUpdatedMenu({ ...updatedMenu, dinner: e.target.value })}
-                    />
-                  </td>
-                  <td>
-                    <button
-                      className='btn btn-success'
-                      onClick={handleUpdateMenu}
-                    >
-                      Save
-                    </button>
-                  </td>
-                </>
-              ) : (
-                // Render non-editable cells if the day is not being edited
-                <>
-                  <td>{Array.isArray(dayMenu.meals.breakfast)
-                    ? dayMenu.meals.breakfast.join(', ')
-                    : dayMenu.meals.breakfast}</td>
-                  <td>{Array.isArray(dayMenu.meals.lunch)
-                    ? dayMenu.meals.lunch.join(', ')
-                    : dayMenu.meals.lunch}</td>
-                  <td>{Array.isArray(dayMenu.meals.evening)
-                    ? dayMenu.meals.evening.join(', ')
-                    : dayMenu.meals.evening}</td>
-                  <td>{Array.isArray(dayMenu.meals.dinner)
-                    ? dayMenu.meals.dinner.join(', ')
-                    : dayMenu.meals.dinner}</td>
-                  <td>
-                    <button
-                      className='btn btn-danger'
-                      onClick={() => handleEditButtonClick(dayMenu.day)}
-                    >
-                      Edit
-                    </button>
-                  </td>
-                </>
-              )}
+      <div className='container'>
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Day</th>
+              <th scope="col">Breakfast(7:30 am to 9:30 am)</th>
+              <th scope="col">Lunch(12:30 pm to 2:30 pm)</th>
+              <th scope="col">Evening(5:30 pm to 7:00 pm)</th>
+              <th scope="col">Dinner(8:00 pm to 9:30 pm)</th>
+              {(localStorage.getItem("role")==1)?
+              <th scope="col">Actions</th>:""
+  }
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-    <div id='mess_members'>
+          </thead>
+          <tbody>
+            {menuData.map((dayMenu, index) => (
+              <tr key={dayMenu.day}>
+                <th scope="row">{index + 1}</th>
+                <td>{dayMenu.day}</td>
+                {/* Render editable cells if the day is being edited */}
+                {editingDay === dayMenu.day ? (
+                  <>
+                    <td>
+                      <input
+                        type="text"
+                        value={updatedMenu.breakfast}
+                        onChange={(e) => setUpdatedMenu({ ...updatedMenu, breakfast: e.target.value })}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        value={updatedMenu.lunch}
+                        onChange={(e) => setUpdatedMenu({ ...updatedMenu, lunch: e.target.value })}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        value={updatedMenu.evening}
+                        onChange={(e) => setUpdatedMenu({ ...updatedMenu, evening: e.target.value })}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        value={updatedMenu.dinner}
+                        onChange={(e) => setUpdatedMenu({ ...updatedMenu, dinner: e.target.value })}
+                      />
+                    </td>
+                    <td>
+                      <button
+                        className='btn btn-success'
+                        onClick={handleUpdateMenu}
+                      >
+                        Save
+                      </button>
+                    </td>
+                  </>
+                ) : (
+                  // Render non-editable cells if the day is not being edited
+                  <>
+                    <td>{Array.isArray(dayMenu.meals.breakfast)
+                      ? dayMenu.meals.breakfast.join(', ')
+                      : dayMenu.meals.breakfast}</td>
+                    <td>{Array.isArray(dayMenu.meals.lunch)
+                      ? dayMenu.meals.lunch.join(', ')
+                      : dayMenu.meals.lunch}</td>
+                    <td>{Array.isArray(dayMenu.meals.evening)
+                      ? dayMenu.meals.evening.join(', ')
+                      : dayMenu.meals.evening}</td>
+                    <td>{Array.isArray(dayMenu.meals.dinner)
+                      ? dayMenu.meals.dinner.join(', ')
+                      : dayMenu.meals.dinner}</td>
+                    <td>
+                      {(localStorage.getItem("role")==1)?
+                      <button
+                        className='btn btn-danger'
+                        onClick={() => handleEditButtonClick(dayMenu.day)}
+                      >
+                        Edit
+                      </button>
+                      :""
+}
+                    </td>
+                  </>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div id='mess_mess-members'>
         <div id='mess_head'>
           <center>
             <u>MESS DETAILS</u>
@@ -179,63 +327,85 @@ function Mess() {
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
                   <th scope="col">Post</th>
-                  <th scope="col">Date of joining </th>
-                  <th scope="col">Edit Details </th>
-
+                  {(localStorage.getItem("role")==2)?
+                  <th scope="col">Edit details</th>:""
+}
+                  {/* <th scope="col">Date of joining </th> */}
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Anuj Panday</td>
-                  <td>Worker head</td>
-                  <td>12 March 2003</td>
-              <td><button className='btn btn-danger'>edit</button></td>
+                {members.map((member, index) => (
+                  <tr key={member.id}>
+                    <th scope="row">{index + 1}</th>
 
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Ramu Pandit</td>
-                  <td>Worker</td>
-                  <td>13 april 1996</td>
-              <td><button className='btn btn-danger'>edit</button></td>
-
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Teja rawat</td>
-                  <td>Grocery Manager</td>
-                  <td>12 Jan 1992</td>
-              <td><button className='btn btn-danger'>edit</button></td>
-
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td>Heeralal</td>
-                  <td>chef</td>
-                  <td>19 Dec 1995</td>
-              <td><button className='btn btn-danger'>edit</button></td>
-
-                </tr>
-                <tr>
-                  <th scope="row">5</th>
-                  <td>Chandan Kumar</td>
-                  <td>chef</td>
-                  <td>4 Nov 1995</td>
-              <td><button className='btn btn-danger'>edit</button></td>
-
-                </tr>
-                <tr>
-                  <th scope="row">6</th>
-                  <td>Rahim singh Joshi </td>
-                  <td>Worker</td>
-                  <td>9 feb 1985</td>
-              <td><button className='btn btn-danger'>edit</button></td>
-
-                </tr>
+                    {editingMembers[member.id] ? (
+                      <>
+                        <td>
+                          <input
+                            type="text"
+                            value={updatedMember.name}
+                            onChange={(e) => setUpdatedMember({ ...updatedMember, name: e.target.value })}
+                          /></td>
+                        <td>
+                          <input
+                            type="text"
+                            value={updatedMember.post}
+                            onChange={(e) => setUpdatedMember({ ...updatedMember, post: e.target.value })}
+                          />
+                        </td>
+                        <td>
+                          <button className='btn btn-success' onClick={() => handleSave(member)}>Save</button>
+                          <button className='btn btn-secondary' onClick={() => handleCancelEdit(member.id)}>Cancel</button>
+                        </td>
+                      </>
+                    ) : (
+                      <>
+                        <td>{member.name}</td>
+                        <td>{member.post}</td>
+                        {(localStorage.getItem("role")==2)?
+                        <td>
+                          <button className='btn btn-danger' onClick={() => handleEditClick(member.id)}>Edit</button>
+                        </td>:""
+}
+                      </>
+                    )}
+                  </tr>
+                ))}
               </tbody>
             </table>
-            <center><button className='btn btn-success'>Add Member</button></center>
+            <center>
+              {addingMember ? (
+                <div>
+                  <h3>Add New Member</h3>
+                  <label>Name:</label>
+                  <input
+                    type="text"
+                    value={newMember.name}
+                    onChange={(e) => setNewMember({ ...newMember, name: e.target.value })}
+                  />
+                  <label>Post:</label>
+                  <input
+                    type="text"
+                    value={newMember.post}
+                    onChange={(e) => setNewMember({ ...newMember, post: e.target.value })}
+                  />
+                  <label>Hostel:</label>
+                  <input
+                    type="text"
+                    value={newMember.hostel}
+                    onChange={(e) => setNewMember({ ...newMember, hostel: e.target.value })}
+                  />
+                  <button className='btn btn-success' onClick={handleAddMember}>Add Member</button>
+                  <button className='btn btn-secondary' onClick={handleCancelAddMember}>Cancel</button>
+                </div>
+              ) : (
+                <div>
+                  {(localStorage.getItem("role")==2)?
+                <button className='btn btn-primary' onClick={handleAddMemberClick}>Add Member</button>:""
+              }
+                </div>
+              )}
+            </center>
           </div>
           <div className='col'>
             <h2 id='mess_det_head'>Mess Commitee</h2>
@@ -245,7 +415,6 @@ function Mess() {
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
                   <th scope="col">Post</th>
-                  <th scope="col">Date of joining </th>
                   <th scope="col">Edit details</th>
 
                 </tr>
@@ -254,49 +423,43 @@ function Mess() {
                 <tr>
                   <th scope="row">1</th>
                   <td>Anuj Panday</td>
-                  <td>Worker head</td>
-                  <td>12 March 2003</td>
-              <td><button className='btn btn-danger'>edit</button></td>
+                  <td>Manager</td>
+                  <td><button className='btn btn-danger'>edit</button></td>
                 </tr>
                 <tr>
                   <th scope="row">2</th>
                   <td>Ramu Pandit</td>
-                  <td>Worker</td>
-                  <td>13 april 1996</td>
-              <td><button className='btn btn-danger'>edit</button></td>
+                  <td>Member</td>
+                  <td><button className='btn btn-danger'>edit</button></td>
                 </tr>
                 <tr>
                   <th scope="row">3</th>
                   <td>Teja rawat</td>
-                  <td>Grocery Manager</td>
-                  <td>12 Jan 1992</td>
-              <td><button className='btn btn-danger'>edit</button></td>
+                  <td>Sacretary</td>
+                  <td><button className='btn btn-danger'>edit</button></td>
                 </tr>
                 <tr>
                   <th scope="row">4</th>
                   <td>Heeralal</td>
-                  <td>chef</td>
-                  <td>19 Dec 1995</td>
-              <td><button className='btn btn-danger'>edit</button></td>
+                  <td>Sacretary</td>
+                  <td><button className='btn btn-danger'>edit</button></td>
                 </tr>
                 <tr>
                   <th scope="row">5</th>
                   <td>Chandan Kumar</td>
-                  <td>chef</td>
-                  <td>4 Nov 1995</td>
-              <td><button className='btn btn-danger'>edit</button></td>
+                  <td>Member</td>
+                  <td><button className='btn btn-danger'>edit</button></td>
                 </tr>
                 <tr>
                   <th scope="row">6</th>
                   <td>Rahim singh Joshi </td>
-                  <td>Worker</td>
-                  <td>9 feb 1985</td>
-              <td><button className='btn btn-danger'>edit</button></td>
+                  <td>Member</td>
+                  <td><button className='btn btn-danger'>edit</button></td>
                 </tr>
               </tbody>
             </table>
             <div>
-            <center><button className='btn btn-success'>Add Member</button></center>
+              <center><button className='btn btn-success'>Add Member</button></center>
             </div>
           </div>
         </div>
@@ -306,7 +469,7 @@ function Mess() {
           For any complain regarding menu and mess you can add it here.
         </h2>
         <Link to='/complainform'>
-        <button className='btn btn-warning'>Add Complain</button>
+          <button className='btn btn-warning'>Add Complain</button>
         </Link>
       </div>
     </>

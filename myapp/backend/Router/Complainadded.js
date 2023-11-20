@@ -24,12 +24,16 @@ router.post('/addcomplain',[
         if(!user){
             return res.json({  Success: false });
         }
+        
         await Details.create({
             name:req.body.name,
             title:req.body.title,
             email:req.body.email,
-            hostel:"tondon",
-            description:req.body.description
+
+            description:req.body.description,
+            hostel:req.body.hostel
+            
+
         })
         
         

@@ -10,6 +10,13 @@ app.get('/', (req, res) => {
 })
 app.use(express.json())
 app.use('/api',require('./Router/Complainadded'));
+
+app.use('/api',require('./Router/MessMember'));
+
+app.use('/api',require('./Router/Edit_menu'));
+
+app.use('/api',require('./Router/MessCommitee'));
+
 app.use('/api',require('./Router/Displaydata'));
 app.use('/api',require('./Routes/CreateUser'));
 app.use('/api',require('./Routes/Loginuser'));

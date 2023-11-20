@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 // import { useState } from 'react'
 export default function Complainform() {
     let navigate = useNavigate();
+   
     const [credentials, setcredentials] = useState({ name: "", email: "", title: "", description: "" });
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -14,10 +15,10 @@ export default function Complainform() {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name: credentials.name, email: credentials.email, title: credentials.title, description: credentials.description})
+            body: JSON.stringify({ name: credentials.name, email: credentials.email, title: credentials.title, description: credentials.description,hostel:localStorage.getItem("hostel")})
         })
         const json = await response.json();
-        //console.log(json);
+        
         
         if (!json.Success) {
             alert("Enter a valid email")
@@ -32,6 +33,7 @@ export default function Complainform() {
     }
     return (
         <div>
+            
             <div>
                 <Navbar></Navbar>
             </div>

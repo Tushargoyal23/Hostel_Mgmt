@@ -2,12 +2,20 @@ import React, { useState, useEffect } from 'react'
 import Post from '../Post'
 import axios from "axios";
 export default function ComplainList() {
-  const [complains, setcomplain] = useState([])
-  const getComplaints = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/api/complaindata")
-      if (res.data.success) {
-        setcomplain(res.data.data);
+
+    const [complains , setcomplain] = useState([])
+    const getComplaints= async () => {
+      try {
+        const res = await axios.post("http://localhost:5000/api/complaindata",{
+          hostel:localStorage.getItem("hostel")
+        })
+        if (res.data.success) {
+          setcomplain(res.data.data);
+        }
+      } catch (error) {
+        console.log(error);
+
+  
       }
     } catch (error) {
       console.log(error);
@@ -19,14 +27,7 @@ export default function ComplainList() {
   }, []);
 
 
-  // const columns = [
-  //   {
-  //     title: "title",
-  //     dataIndex: "title",
-  //   },
-
-  // ];
-
+  
   return (
     <div>
       {/*Post the requested complians*/}

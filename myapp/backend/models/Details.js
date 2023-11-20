@@ -30,6 +30,9 @@ const ComplainSchema = new Schema({
     },image: {
         data: Buffer, // Use Buffer to store binary data
         contentType: String,
+    },hostel:{
+        type:String,
+        required:true
     }
 });
 
