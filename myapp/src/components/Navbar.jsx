@@ -3,9 +3,9 @@ import { Link ,json,useNavigate} from 'react-router-dom'
 
 export default function Navbar() {
     const navigate=useNavigate();
-    const logouthandle=()=>{
-       
-       localStorage.removeItem("token");
+    const logouthandle=(e)=>{
+       e.preventDefault();
+       localStorage.clear();
        navigate("/");
      }
     return (
@@ -19,16 +19,13 @@ export default function Navbar() {
                     <div className="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className="nav-link active" aria-current="page" to="/">Home</Link>
+                                <Link className="nav-link active" aria-current="page" to="/home">Home</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">Hostel rules</Link>
+                                <Link className="nav-link" to="/rules">Hostel rules</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">Mess commitee</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/">About Us</Link>
+                                <Link className="nav-link" to="/home">About Us</Link>
                             </li>
                         </ul>
                     </div>

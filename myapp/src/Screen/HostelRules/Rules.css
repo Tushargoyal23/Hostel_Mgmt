@@ -1,0 +1,24 @@
+#rules_head{
+    color: aliceblue;
+    font-size: 3rem;
+}
+#rules_body{
+    margin-top: 4%;
+    margin-left: 10%;
+    padding-top: 2%;
+    padding-bottom: 5%;
+    padding-left: 2%;
+    background-image: url(https://img.freepik.com/free-vector/black-background-with-focus-spot-light_1017-27230.jpg?size=626&ext=jpg&ga=GA1.1.44546679.1700352000&semt=ais);
+    background-size: cover; /* Make the background image cover the entire element */
+    background-position: center; /* Center the background image */
+    opacity: 0.75;
+}
+#rules_content{
+    margin-top: 2%;
+    color: aliceblue;
+    list-style-type: square; /* Use 'square' for square bullets */
+    font-size: 1.5rem;
+}
+#items{
+    opacity: 1;
+}

@@ -25,7 +25,7 @@ export default function Login() {
       if(json.success){
         localStorage.setItem("token" , json.token);
         // console.log(localStorage.getItem("authToken"));
-        navigate('/');
+        navigate('/home');
       }
     }
     const Onchange = (event) =>{
