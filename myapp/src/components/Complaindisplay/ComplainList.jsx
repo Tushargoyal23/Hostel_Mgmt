@@ -5,7 +5,9 @@ export default function ComplainList() {
     const [complains , setcomplain] = useState([])
     const getComplaints= async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/complaindata")
+        const res = await axios.post("http://localhost:5000/api/complaindata",{
+          hostel:localStorage.getItem("hostel")
+        })
         if (res.data.success) {
           setcomplain(res.data.data);
         }

@@ -6,7 +6,7 @@ export default function Login() {
     
   let navigate = useNavigate();
     
-  const[credentials , setcredentials] =useState({name:"" , email: "" , hostel: "" , password : ""});
+  const[credentials , setcredentials] =useState({email: "" , password : ""});
     const handleSubmit = async(e) => {
       e.preventDefault();
       const response = await fetch('http://localhost:5000/api/login',{
@@ -14,17 +14,24 @@ export default function Login() {
         headers:{
           'Content-Type': 'application/json'
         },
-        body:JSON.stringify({name :credentials.name , email:credentials.email , hostel:credentials.hostel , password:credentials.password})
-  
+        body:JSON.stringify({ email:credentials.email ,  password:credentials.password})
+
       })
       const json = await response.json();
-      console.log(json);
       if(!json.success){
         alert("enter valid credentials")
       }
       if(json.success){
         localStorage.setItem("token" , json.token);
-        // console.log(localStorage.getItem("authToken"));
+        console.log(json.role);
+        localStorage.setItem("role",json.role);
+       
+        localStorage.setItem("hostel",json.hostel);
+        
+       
+        
+        
+    //console.log(localStorage.getItem("role",credentials.role));
         navigate('/');
       }
     }

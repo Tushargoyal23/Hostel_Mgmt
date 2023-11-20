@@ -3,10 +3,12 @@ import { Link ,json,useNavigate} from 'react-router-dom'
 
 export default function Navbar() {
     const navigate=useNavigate();
-    const logouthandle=()=>{
+    const logouthandle=(e)=>{
+       e.preventDefault();
+        localStorage.clear();
        
-       localStorage.removeItem("token");
-       navigate("/");
+       navigate('/');
+       console.log("aba")
      }
     return (
         <div id='Navbar'>

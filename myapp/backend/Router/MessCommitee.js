@@ -15,6 +15,7 @@ router.post('/add-commitee-member', async (req, res) => {
       });
   
       // Saving the new member to the database
+      
       const savedMember = await newMember.save();
   
       res.status(201).json(savedMember); // Return the created member

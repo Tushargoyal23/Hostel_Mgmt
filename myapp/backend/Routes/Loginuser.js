@@ -18,10 +18,13 @@ router.post('/login', async (req, res) => {
           .status(200)
           .send({ message: "Invlid EMail or Password", success: false });
       }
+      const role=user.role;
+      const hostel=user.hostel;
+      //console.log(user.role)
       const token = jwt.sign({ id: user._id }, secretkey, {
-        expiresIn: "1d",
+        expiresIn: '24h',
       });
-      res.status(200).send({ message: "Login Success", success: true, token });
+      res.status(200).send({ message: "Login Success", success: true, token ,role,hostel,user});
     } catch (error) {
       console.log(error);
       res.status(500).send({ message: `Error in Login CTRL ${error.message}` });
