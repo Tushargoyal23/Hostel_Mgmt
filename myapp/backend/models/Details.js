@@ -15,12 +15,22 @@ const ComplainSchema = new Schema({
     },date:{
         type: Date,
         default: Date.now
-    }, description:{
+    },hostel:{
+        type:String,
+        required: true
+    },description:{
+        type:String,
+        required: true
+    },isResponse:{
+        type:Boolean,
+        default:false
+    }, Response:{
         type: String,
-        required:true
-    },image: {
-        data: Buffer, // Use Buffer to store binary data
-        contentType: String,
+        // required:true
+    },imageurl: {
+        type: String, // Use Buffer to store binary data
+        // contentType: String,
+        required: true
     }
 });
 

@@ -1,13 +1,25 @@
-import React from 'react'
-import './SignUp.css'
-import { Link, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
 export default function Signup() {
-  let navigate = useNavigate();
-  const[credentials , setcredentials] =useState({name:"" , email: "" , hostel: "" , password : ""});
-  const handleSubmit = async(e) => {
+  const navigate = useNavigate();
+  const [credentials, setCredentials] = useState({
+    name: '',
+    email: '',
+    hostel: '', // Updated to be an empty string initially
+    password: '',
+  });
+  const [loading, setLoading] = useState(false);
+
+  const hostels = ['Tondon', 'Malviya', 'Tilak']; // Example list of hostels
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:5000/api/createuser',{
+    setLoading(true);
+
+    try {
+      // Your existing code for fetching and handling the registration
+      const response = await fetch('http://localhost:5000/api/createuser',{
       method:'POST',
       headers:{
         'Content-Type': 'application/json'
@@ -25,33 +37,87 @@ export default function Signup() {
       // console.log(localStorage.getItem("authToken"));
       navigate('/login');
     }
-  }
-  const Onchange = (event) =>{
-      setcredentials({...credentials,[event.target.name]:event.target.value})
-  }
+    } catch (error) {
+      console.error('Error during registration:', error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onChange = (event) => {
+    setCredentials({ ...credentials, [event.target.name]: event.target.value });
+  };
+
   return (
-    <div className='container' id='main'>
+    <div className="container" id="main">
       <form onSubmit={handleSubmit}>
-  <div className="mb-4">
-    <label htmlFor="exampleInputname" className="form-label"><b>*Name</b></label>
-    <input type="text" className="form-control" name='name' value={credentials.name} onChange={Onchange} />
-  </div>
-  <div className="mb-3">
-    <label htmlFor="exampleInputEmail1" className="form-label"><b>*Email address</b></label>
-    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name='email' value={credentials.email} onChange={Onchange}/>
-    <div>*We'll never share your email with anyone else.</div>
-  </div>
-  <div className="mb-3">
-    <label htmlFor="location" className="form-label"><b>*Hostel</b></label>
-    <input type="text" className="form-control" name='hostel' value={credentials.hostel} onChange={Onchange}/>
-  </div>
-  <div className="mb-3">
-    <label htmlFor="exampleInputPassword1" className="form-label"><b>*Password</b></label>
-    <input type="password" className="form-control" id="exampleInputPassword1" name='password' value={credentials.password} onChange={Onchange}/>
-  </div>
-  <button type="submit" className="btn btn-primary">Submit</button>
-  <Link to= '/login' className='m-3 btn btn-danger'>Already a user</Link>
-</form>
+        <div className="mb-4">
+          <label htmlFor="exampleInputname" className="form-label">
+            <b id="elements">*Name</b>
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            name="name"
+            value={credentials.name}
+            onChange={onChange}
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="exampleInputEmail1" className="form-label">
+            <b>*Email address</b>
+          </label>
+          <input
+            type="email"
+            className="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            name="email"
+            value={credentials.email}
+            onChange={onChange}
+          />
+          <div>*We'll never share your email with anyone else.</div>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="hostel" className="form-label">
+            <b>*Hostel</b>
+          </label>
+          <select
+            className="form-control"
+            name="hostel"
+            value={credentials.hostel}
+            onChange={onChange}
+          >
+            <option value="" disabled>
+              Select a hostel
+            </option>
+            {hostels.map((hostel) => (
+              <option key={hostel} value={hostel}>
+                {hostel}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="exampleInputPassword1" className="form-label">
+            <b>*Password</b>
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="exampleInputPassword1"
+            name="password"
+            value={credentials.password}
+            onChange={onChange}
+          />
+        </div>
+        <button type="submit" className="btn btn-primary" disabled={loading}>
+          {loading ? 'Loading...' : 'Submit'}
+        </button>
+        <Link to="/login" className="m-3 btn btn-danger">
+          Already a user
+        </Link>
+      </form>
     </div>
-  )
+  );
 }

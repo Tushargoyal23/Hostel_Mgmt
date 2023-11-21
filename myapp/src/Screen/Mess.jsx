@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar'
 import './Mess.css'
-import { Link } from 'react-router-dom'
+import { Link, json } from 'react-router-dom'
 function Mess() {
   const [menuData, setMenuData] = useState([]);
   const [editingDay, setEditingDay] = useState(null);
@@ -14,7 +14,15 @@ function Mess() {
 
   useEffect(() => {
     // Fetch menu data from the server
-    fetch('http://localhost:5000/api/get-menu-for-week')
+    fetch('http://localhost:5000/api/get-menu-for-week', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        hostel:localStorage.getItem("hostel")
+      })
+    })
       .then(response => response.json())
       .then(menuData => setMenuData(menuData))
       .catch(error => console.error('Error fetching menu data:', error));
@@ -45,6 +53,7 @@ function Mess() {
         body: JSON.stringify({
           day: editingDay,
           meals: updatedMenu,
+          hostel:localStorage.getItem("hostel")
         }),
       });
       console.log("");
@@ -335,7 +344,9 @@ function Mess() {
               <th scope="col">Lunch(12:30 pm to 2:30 pm)</th>
               <th scope="col">Evening(5:30 pm to 7:00 pm)</th>
               <th scope="col">Dinner(8:00 pm to 9:30 pm)</th>
-              <th scope="col">Actions</th>
+              {(localStorage.getItem("role")==1)?
+              <th scope="col">Actions</th>:""
+  }
             </tr>
           </thead>
           <tbody>
@@ -399,12 +410,15 @@ function Mess() {
                       ? dayMenu.meals.dinner.join(', ')
                       : dayMenu.meals.dinner}</td>
                     <td>
+                      {(localStorage.getItem("role")==1)?
                       <button
                         className='btn btn-danger'
                         onClick={() => handleEditButtonClick(dayMenu.day)}
                       >
                         Edit
                       </button>
+                      :""
+}
                     </td>
                   </>
                 )}
@@ -429,7 +443,9 @@ function Mess() {
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
                   <th scope="col">Post</th>
-                  <th scope="col">Edit details</th>
+                  {(localStorage.getItem("role")==2)?
+                  <th scope="col">Edit details</th>:""
+}
                   {/* <th scope="col">Date of joining </th> */}
                 </tr>
               </thead>
@@ -465,9 +481,12 @@ function Mess() {
                         {/* {console.log(member.name , index)} */}
                         <td>{member.name}</td>
                         <td>{member.post}</td>
+                        {(localStorage.getItem("role")==2)?
                         <td>
-                          <button className='btn btn-danger' onClick={() => handleEditClick(member._id)}>Edit</button>
-                        </td>
+
+                          <button className='btn btn-danger' onClick={() => handleEditClick(member.id)}>Edit</button>
+                        </td>:""
+}
                       </>
                     )}
                   </tr>
@@ -500,7 +519,11 @@ function Mess() {
                   <button className='btn btn-secondary' onClick={handleCancelAddMember}>Cancel</button>
                 </div>
               ) : (
-                <button className='btn btn-primary' onClick={handleAddMemberClick}>Add Member</button>
+                <div>
+                  {(localStorage.getItem("role")==2)?
+                <button className='btn btn-primary' onClick={handleAddMemberClick}>Add Member</button>:""
+              }
+                </div>
               )}
             </center>
           </div>
