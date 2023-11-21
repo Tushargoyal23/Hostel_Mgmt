@@ -34,9 +34,11 @@ router.post('/update-menu/:day', async (req, res) => {
     }
 
     // Try to find the menu for the specified day
+
     console.log(updatedMenu)
     let result = await Menu.findOne({ day: dayToUpdate,hostel:req.body.hostel});
     console.log(result);
+
     // If the menu for the day does not exist, create a new entry
     if (!result) {
       const newMenu = new Menu({
@@ -50,6 +52,7 @@ router.post('/update-menu/:day', async (req, res) => {
       let result = await newMenu.save();
       return res.status(201).json({ message: 'New menu entry created', updatedMenu: result });
     }
+
     if (typeof updatedMenu.breakfast == "string")
       updatedMenu.breakfast = updatedMenu.breakfast.split(',');
     if (typeof updatedMenu.lunch == "string")
@@ -58,6 +61,7 @@ router.post('/update-menu/:day', async (req, res) => {
       updatedMenu.dinner = updatedMenu.dinner.split(',');
     if (typeof updatedMenu.evening == "string")
       updatedMenu.evening = updatedMenu.evening.split(',');
+
     // Update the menu in the database
     // console.log(dayToUpdate, updatedMenu);
     result = await Menu.findOneAndUpdate({ day: dayToUpdate }, { meals: updatedMenu }, { new: true });

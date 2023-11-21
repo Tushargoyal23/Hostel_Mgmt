@@ -24,6 +24,7 @@ const menuSchema = new mongoose.Schema({
       required: true
     }]
   },
+
   hostel:{
     type: String,
      required: true,

@@ -11,7 +11,8 @@ function Mess() {
     dinner: '',
     evening: '',
   });
-
+const role=localStorage.getItem('role');
+const hostel=localStorage.getItem('hostel');
   useEffect(() => {
     // Fetch menu data from the server
     fetch('http://localhost:5000/api/get-menu-for-week', {
@@ -26,7 +27,15 @@ function Mess() {
       .then(response => response.json())
       .then(menuData => setMenuData(menuData))
       .catch(error => console.error('Error fetching menu data:', error));
-      console.log(menuData)
+    fetch('http://localhost:5000/api/mess-members')
+      .then(response => response.json())
+      .then(members => setMembers(members))
+      .catch(error => console.error('Error fetching member data:', error));
+      fetch('http://localhost:5000/api/commitee-members')
+      .then(response => response.json())
+      .then(commiteemembers => setcommiteeMembers(commiteemembers))
+      .catch(error => console.error('Error fetching commitee  data:', error));
+
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
   const handleEditButtonClick = (day) => {
@@ -78,8 +87,9 @@ function Mess() {
 
   //for mess-members
   const [members, setMembers] = useState([]);
-  const [editingMembers, setEditingMembers] = useState({});
+  const [editingMemberid, setEditingMemberid] = useState(null);
   const [updatedMember, setUpdatedMember] = useState({
+    _id: '',
     name: '',
     post: '',
   });
@@ -87,85 +97,74 @@ function Mess() {
   const [newMember, setNewMember] = useState({
     name: '',
     post: '',
-    hostel: '',
+    hostel: hostel,
   });
 
-
-  useEffect(() => {
-    // Fetch members from the API when the component mounts
-    // fetchMembers();
-    fetch('http://localhost:5000/api/mess-members')
-      .then(response => response.json())
-      .then(members => setMembers(members))
-      .catch(error => console.error('Error fetching menu data:', error));
-  }, []);
 
   const fetchMembers = async () => {
     try {
       const response = await fetch('http://localhost:5000/api/mess-members');
       const data = await response.json();
       setMembers(data);
-      setEditingMembers({}); // Reset editing state when fetching new data
+      setEditingMemberid(null); // Reset editing state when fetching new data
     } catch (error) {
       console.error('Error fetching members:', error);
     }
   }
 
-  const handleEditClick = (member) => {
-    setEditingMembers((prevEditingMembers) => ({
-      ...prevEditingMembers,
-      [member.id]: { ...member },
-    }));
+  const handleEditClick = (id) => {
+    // console.log(member);
+    setEditingMemberid(id);
     // setEditingMembers(member);
     // Initialize the updatedMenu state with the current menu data for the selected day
-    const currentMem = members.find(mem => mem.id === member.id);
+    const currentMem = members.find(mem => mem._id === id);
+    // console.log(currentMem);
     setUpdatedMember(currentMem);
   };
 
-  const handleSave = async (editedMember) => {
+  const handleSave = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/update-mess-member/${editedMember.id}`, {
+      console.log(updatedMember);
+      const response = await fetch(`http://localhost:5000/api/update-mess-member/${editingMemberid}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: editedMember.name,
-          post: editedMember.post
+          name: updatedMember.name,
+          post: updatedMember.post
         }),
       });
 
       if (response.ok) {
-        console.log(`Member ${editedMember.id} updated successfully`);
+        console.log(`Member ${editingMemberid} updated successfully`);
         // Fetch updated members from the API
-        setMembers(prevMemberData => {
-          const updatedMemberData = prevMemberData.map(mem => {
-            if (mem.id === editedMember.id) {
-              return {
-                ...mem,
-                name: editedMember.name,
-                post: editedMember.post
-              };
-            }
-            return mem;
-          });
-          return updatedMemberData;
-        });
+        // setMembers(prevMemberData => {
+        //   const updatedMemberData = prevMemberData.map(mem => {
+        //     if (mem._id === editedMember._id) {
+        //       return {
+        //         ...mem,
+        //         name: editedMember.name,
+        //         post: editedMember.post
+        //       };
+        //     }
+        //     return mem;
+        //   });
+        //   return updatedMemberData;
+        // });
         // Reset the editing state
-        setEditingDay(null);
+        setEditingMemberid(null);
+        window.location.reload();
       } else {
-        console.error(`Failed to update member ${editedMember.id}`);
+        console.error(`Failed to update member ${editingMemberid}`);
       }
     } catch (error) {
       console.error('Error updating member:', error);
     }
   };
 
-  const handleCancelEdit = (memberId) => {
-    setEditingMembers((prevEditingMembers) => {
-      const { [memberId]: _, ...rest } = prevEditingMembers;
-      return rest;
-    });
+  const handleCancelEdit = () => {
+    setEditingMemberid(null);
   };
 
   const handleAddMemberClick = () => {
@@ -174,6 +173,7 @@ function Mess() {
 
   const handleAddMember = async () => {
     try {
+      console.log(newMember);
       const response = await fetch('http://localhost:5000/api/add-mess-member', {
         method: 'POST',
         headers: {
@@ -185,13 +185,14 @@ function Mess() {
       if (response.ok) {
         console.log('Member added successfully');
         // Fetch updated members from the API
-        fetchMembers();
+        // fetchMembers();
         setAddingMember(false);
-        setNewMember({
-          name: '',
-          post: '',
-          dateOfJoining: '',
-        });
+        // setNewMember({
+        //   name: '',
+        //   post: '',
+        //   hostel: '',
+        // });
+        window.location.reload();
       } else {
         console.error('Failed to add member');
       }
@@ -205,21 +206,128 @@ function Mess() {
     setNewMember({
       name: '',
       post: '',
-      dateOfJoining: '',
+      hostel: '',
     });
   };
 
-  const handleEditChange = (memberId, field, value) => {
-    setEditingMembers((prevEditingMembers) => ({
-      ...prevEditingMembers,
-      [memberId]: {
-        ...prevEditingMembers[memberId],
-        [field]: value,
-      },
-    }));
-  };
+
+
+  //hostel commitee
+  const [commiteemembers, setcommiteeMembers] = useState([]);
+  const [editingcommiteeMemberid, setEditingcommiteeMemberid] = useState(null);
+  const [updatedcommiteeMember, setUpdatedcommiteeMember] = useState({
+    _id: '',
+    name: '',
+    post: '',
+  });
+  const [addingcommiteeMember, setAddingcommiteeMember] = useState(false);
+  const [newcommiteeMember, setNewcommiteeMember] = useState({
+    name: '',
+    post: '',
+    hostel: hostel,
+  });
+
 
   
+  const handleEditcommiteeClick = (id) => {
+    // console.log(member);
+    setEditingcommiteeMemberid(id);
+    // setEditingMembers(member);
+    // Initialize the updatedMenu state with the current menu data for the selected day
+    const currentcommiteeMem = commiteemembers.find(mem => mem._id === id);
+    // console.log(currentMem);
+    setUpdatedcommiteeMember(currentcommiteeMem);
+  };
+
+  const handlecommiteeSave = async () => {
+    try {
+      console.log(updatedcommiteeMember);
+      const response = await fetch(`http://localhost:5000/api/update-commitee-member/${editingcommiteeMemberid}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: updatedcommiteeMember.name,
+          post: updatedcommiteeMember.post
+        }),
+      });
+
+      if (response.ok) {
+        console.log(`Member ${editingcommiteeMemberid} updated successfully`);
+        // Fetch updated members from the API
+        // setMembers(prevMemberData => {
+        //   const updatedMemberData = prevMemberData.map(mem => {
+        //     if (mem._id === editedMember._id) {
+        //       return {
+        //         ...mem,
+        //         name: editedMember.name,
+        //         post: editedMember.post
+        //       };
+        //     }
+        //     return mem;
+        //   });
+        //   return updatedMemberData;
+        // });
+        // Reset the editing state
+        setEditingcommiteeMemberid(null);
+        window.location.reload();
+      } else {
+        console.error(`Failed to update member ${editingcommiteeMemberid}`);
+      }
+    } catch (error) {
+      console.error('Error updating member:', error);
+    }
+  };
+
+  const handlecommiteeCancelEdit = () => {
+    setEditingcommiteeMemberid(null);
+  };
+
+  const handleAddcommiteeMemberClick = () => {
+    setAddingcommiteeMember(true);
+  };
+
+  const handleAddcommiteeMember = async () => {
+    try {
+      console.log(newcommiteeMember);
+      const response = await fetch('http://localhost:5000/api/add-commitee-member', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newcommiteeMember),
+      });
+
+      if (response.ok) {
+        console.log('commitee Member added successfully');
+        // Fetch updated members from the API
+        // fetchMembers();
+        setAddingcommiteeMember(false);
+        // setNewMember({
+        //   name: '',
+        //   post: '',
+        //   hostel: '',
+        // });
+        window.location.reload();
+      } else {
+        console.error('Failed to add commitee');
+      }
+    } catch (error) {
+      console.error('Error adding member:', error);
+    }
+  };
+
+  const handleCancelAddcommiteeMember = () => {
+    setAddingcommiteeMember(false);
+    setNewcommiteeMember({
+      name: '',
+      post: '',
+      hostel: hostel,
+    });
+  };
+
+
   return (
     <>
       <div>
@@ -345,12 +453,13 @@ function Mess() {
               </thead>
               <tbody>
                 {members.map((member, index) => (
-                  <tr key={member.id}>
+                  <tr key={member._id}>
                     <th scope="row">{index + 1}</th>
 
-                    {editingMembers[member.id] ? (
+                    {(editingMemberid === member._id) ? (
                       <>
                         <td>
+                          {/* {console.log("nksdnkn")} */}
                           <input
                             type="text"
                             value={updatedMember.name}
@@ -364,19 +473,25 @@ function Mess() {
                           />
                         </td>
                         <td>
-                          <button className='btn btn-success' onClick={() => handleSave(member)}>Save</button>
-                          <button className='btn btn-secondary' onClick={() => handleCancelEdit(member.id)}>Cancel</button>
+                          <button className='btn btn-success' onClick={() => handleSave()}>Save</button>
+                          <button className='btn btn-secondary' onClick={() => handleCancelEdit()}>Cancel</button>
                         </td>
                       </>
                     ) : (
+
                       <>
+                        {/* {console.log(member.name , index)} */}
                         <td>{member.name}</td>
                         <td>{member.post}</td>
                         {(localStorage.getItem("role")==2)?
                         <td>
-                          <button className='btn btn-danger' onClick={() => handleEditClick(member.id)}>Edit</button>
-                        </td>:""
-}
+                          <>
+                          {(role==2)?
+                          <button className='btn btn-danger' onClick={() => handleEditClick(member._id)}>Edit</button>:""
+                            }
+                          </>
+                        </td>
+
                       </>
                     )}
                   </tr>
@@ -399,26 +514,21 @@ function Mess() {
                     value={newMember.post}
                     onChange={(e) => setNewMember({ ...newMember, post: e.target.value })}
                   />
-                  <label>Hostel:</label>
-                  <input
-                    type="text"
-                    value={newMember.hostel}
-                    onChange={(e) => setNewMember({ ...newMember, hostel: e.target.value })}
-                  />
                   <button className='btn btn-success' onClick={handleAddMember}>Add Member</button>
                   <button className='btn btn-secondary' onClick={handleCancelAddMember}>Cancel</button>
                 </div>
               ) : (
                 <div>
-                  {(localStorage.getItem("role")==2)?
+                {(role==2)?
                 <button className='btn btn-primary' onClick={handleAddMemberClick}>Add Member</button>:""
-              }
+                }
+
                 </div>
               )}
             </center>
           </div>
           <div className='col'>
-            <h2 id='mess_det_head'>Mess Commitee</h2>
+            <h2 id='mess_det_head'>Commitee Members</h2>
             <table className='table' id='table1'>
               <thead>
                 <tr>
@@ -426,54 +536,92 @@ function Mess() {
                   <th scope="col">Name</th>
                   <th scope="col">Post</th>
                   <th scope="col">Edit details</th>
-
+                  {/* <th scope="col">Date of joining </th> */}
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Anuj Panday</td>
-                  <td>Manager</td>
-                  <td><button className='btn btn-danger'>edit</button></td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Ramu Pandit</td>
-                  <td>Member</td>
-                  <td><button className='btn btn-danger'>edit</button></td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Teja rawat</td>
-                  <td>Sacretary</td>
-                  <td><button className='btn btn-danger'>edit</button></td>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td>Heeralal</td>
-                  <td>Sacretary</td>
-                  <td><button className='btn btn-danger'>edit</button></td>
-                </tr>
-                <tr>
-                  <th scope="row">5</th>
-                  <td>Chandan Kumar</td>
-                  <td>Member</td>
-                  <td><button className='btn btn-danger'>edit</button></td>
-                </tr>
-                <tr>
-                  <th scope="row">6</th>
-                  <td>Rahim singh Joshi </td>
-                  <td>Member</td>
-                  <td><button className='btn btn-danger'>edit</button></td>
-                </tr>
+                {commiteemembers.map((commiteemember, index) => (
+                  <tr key={commiteemember._id}>
+                    <th scope="row">{index + 1}</th>
+
+                    {(editingcommiteeMemberid ===commiteemember._id) ? (
+                      <>
+                        <td>
+                          {/* {console.log("nksdnkn")} */}
+                          <input
+                            type="text"
+                            value={updatedcommiteeMember.name}
+                            onChange={(e) => setUpdatedcommiteeMember({ ...updatedcommiteeMember, name: e.target.value })}
+                          /></td>
+                        <td>
+                          <input
+                            type="text"
+                            value={updatedcommiteeMember.post}
+                            onChange={(e) => setUpdatedcommiteeMember({ ...updatedcommiteeMember, post: e.target.value })}
+                          />
+                        </td>
+                        <td>
+                          <button className='btn btn-success' onClick={() => handlecommiteeSave()}>Save</button>
+                          <button className='btn btn-secondary' onClick={() => handlecommiteeCancelEdit()}>Cancel</button>
+                        </td>
+                      </>
+                    ) : (
+
+                      <>
+                        {/* {console.log(member.name , index)} */}
+                        <td>{commiteemember.name}</td>
+                        <td>{commiteemember.post}</td>
+                        <td>
+                          <div>
+                            {(role==2)?
+                          <button className='btn btn-danger' onClick={() => handleEditcommiteeClick(commiteemember._id)}>Edit</button>:""
+                            }
+                            </div>
+                        </td>
+                      </>
+                    )}
+                  </tr>
+                ))}
               </tbody>
             </table>
-            <div>
-              <center><button className='btn btn-success'>Add Member</button></center>
-            </div>
+            <center>
+              {addingcommiteeMember ? (
+                <div>
+                  <h3>Add New commitee Member</h3>
+                  <label>Name:</label>
+                  <input
+                    type="text"
+                    value={newcommiteeMember.name}
+                    onChange={(e) => setNewcommiteeMember({ ...newcommiteeMember, name: e.target.value })}
+                  />
+                  <label>Post:</label>
+                  <input
+                    type="text"
+                    value={newcommiteeMember.post}
+                    onChange={(e) => setNewcommiteeMember({ ...newcommiteeMember, post: e.target.value })}
+                  />
+                  <label>Hostel:</label>
+                  <input
+                    type="text"
+                    value={newcommiteeMember.hostel}
+                    onChange={(e) => setNewcommiteeMember({ ...newcommiteeMember, hostel: e.target.value })}
+                  />
+                  <button className='btn btn-success' onClick={handleAddcommiteeMember}>Add Member</button>
+                  <button className='btn btn-secondary' onClick={handleCancelAddcommiteeMember}>Cancel</button>
+                </div>
+              ) : (
+                <div>
+                  {(role==2)?
+                <button className='btn btn-primary' onClick={handleAddcommiteeMemberClick}>Add Member</button>:""
+                  }
+                </div>
+              )}
+            </center>
           </div>
         </div>
       </div>
+      <>
+      {(role==0 || role==1)?
       <div className='container' id='info'>
         <h2>
           For any complain regarding menu and mess you can add it here.
@@ -481,7 +629,9 @@ function Mess() {
         <Link to='/complainform'>
           <button className='btn btn-warning'>Add Complain</button>
         </Link>
-      </div>
+      </div>:""
+}
+      </>
     </>
   );
 }

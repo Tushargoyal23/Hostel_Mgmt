@@ -4,12 +4,13 @@ import { Link ,json,useNavigate} from 'react-router-dom'
 export default function Navbar() {
     const role=localStorage.getItem("role")
     const navigate=useNavigate();
-    const logouthandle=(e)=>{
-       e.preventDefault();
 
-       localStorage.clear();
-       navigate("/");
+    const logouthandle=()=>{
+       
+       localStorage.removeItem("token");
+       navigate("/home");
 
+  
      }
     return (
         <div id='Navbar'>

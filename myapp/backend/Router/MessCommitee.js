@@ -5,7 +5,7 @@ const Member = require('../models/Messcommitee');
 // Create a new mess member
 router.post('/add-commitee-member', async (req, res) => {
     const { name, post, hostel} = req.body;
-  
+    
     try {
       // Create a new member
       const newMember = new Member({
@@ -17,7 +17,7 @@ router.post('/add-commitee-member', async (req, res) => {
       // Saving the new member to the database
       
       const savedMember = await newMember.save();
-  
+      
       res.status(201).json(savedMember); // Return the created member
     } catch (error) {
       console.error(error);
@@ -30,7 +30,7 @@ router.post('/add-commitee-member', async (req, res) => {
 router.put('/update-commitee-member/:id', async (req, res) => {
   const memberId = req.params.id;
   const { name, post} = req.body;
-
+  // console.log(name,post);
   try {
     // Find the member by ID
     const member = await Member.findByIdAndUpdate(
