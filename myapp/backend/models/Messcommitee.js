@@ -15,6 +15,7 @@ const messCommitee = new mongoose.Schema({
     required: true,
     enum: ['Tandon', 'Malviya', 'Tilak']
   }
+  
 }, { timestamps: true });
 
 const Messcommitee = mongoose.model('Messcommitee', messCommitee);

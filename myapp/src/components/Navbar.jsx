@@ -2,11 +2,15 @@ import React from 'react'
 import { Link ,json,useNavigate} from 'react-router-dom'
 
 export default function Navbar() {
+    const role=localStorage.getItem("role")
     const navigate=useNavigate();
+
     const logouthandle=()=>{
        
        localStorage.removeItem("token");
        navigate("/home");
+
+  
      }
     return (
         <div id='Navbar'>
@@ -19,16 +23,23 @@ export default function Navbar() {
                     <div className="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className="nav-link active" aria-current="page" to="/">Home</Link>
+                                <Link className="nav-link active" aria-current="page" to="/home">Home</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">Hostel rules</Link>
+                                <Link className="nav-link" to="/rules">Hostel rules</Link>
                             </li>
+                            {(role!=2)?
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">Mess commitee</Link>
-                            </li>
+                                <Link className="nav-link" to="/mycomp">My Complains</Link>
+                            </li>:""
+}
+                                {(role==2)?
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">About Us</Link>
+                                <Link className="nav-link" to="/users">All Users</Link>
+                            </li>:""
+}
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/home">About Us</Link>
                             </li>
                         </ul>
                     </div>

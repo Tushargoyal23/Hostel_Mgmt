@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar'
 import './Mess.css'
-import { Link } from 'react-router-dom'
+import { Link, json } from 'react-router-dom'
 function Mess() {
   const [menuData, setMenuData] = useState([]);
   const [editingDay, setEditingDay] = useState(null);
@@ -15,7 +15,15 @@ const role=localStorage.getItem('role');
 const hostel=localStorage.getItem('hostel');
   useEffect(() => {
     // Fetch menu data from the server
-    fetch('http://localhost:5000/api/get-menu-for-week')
+    fetch('http://localhost:5000/api/get-menu-for-week', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        hostel:localStorage.getItem("hostel")
+      })
+    })
       .then(response => response.json())
       .then(menuData => setMenuData(menuData))
       .catch(error => console.error('Error fetching menu data:', error));
@@ -27,6 +35,7 @@ const hostel=localStorage.getItem('hostel');
       .then(response => response.json())
       .then(commiteemembers => setcommiteeMembers(commiteemembers))
       .catch(error => console.error('Error fetching commitee  data:', error));
+
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
   const handleEditButtonClick = (day) => {
@@ -46,6 +55,7 @@ const hostel=localStorage.getItem('hostel');
         body: JSON.stringify({
           day: editingDay,
           meals: updatedMenu,
+          hostel:localStorage.getItem("hostel")
         }),
       });
       console.log("");
@@ -336,7 +346,9 @@ const hostel=localStorage.getItem('hostel');
               <th scope="col">Lunch(12:30 pm to 2:30 pm)</th>
               <th scope="col">Evening(5:30 pm to 7:00 pm)</th>
               <th scope="col">Dinner(8:00 pm to 9:30 pm)</th>
-              <th scope="col">Actions</th>
+              {(localStorage.getItem("role")==1)?
+              <th scope="col">Actions</th>:""
+  }
             </tr>
           </thead>
           <tbody>
@@ -400,12 +412,15 @@ const hostel=localStorage.getItem('hostel');
                       ? dayMenu.meals.dinner.join(', ')
                       : dayMenu.meals.dinner}</td>
                     <td>
+                      {(localStorage.getItem("role")==1)?
                       <button
                         className='btn btn-danger'
                         onClick={() => handleEditButtonClick(dayMenu.day)}
                       >
                         Edit
                       </button>
+                      :""
+}
                     </td>
                   </>
                 )}
@@ -430,7 +445,9 @@ const hostel=localStorage.getItem('hostel');
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
                   <th scope="col">Post</th>
-                  <th scope="col">Edit details</th>
+                  {(localStorage.getItem("role")==2)?
+                  <th scope="col">Edit details</th>:""
+}
                   {/* <th scope="col">Date of joining </th> */}
                 </tr>
               </thead>
@@ -466,6 +483,7 @@ const hostel=localStorage.getItem('hostel');
                         {/* {console.log(member.name , index)} */}
                         <td>{member.name}</td>
                         <td>{member.post}</td>
+                        {(localStorage.getItem("role")==2)?
                         <td>
                           <>
                           {(role==2)?
@@ -473,6 +491,7 @@ const hostel=localStorage.getItem('hostel');
                             }
                           </>
                         </td>
+
                       </>
                     )}
                   </tr>
@@ -503,6 +522,7 @@ const hostel=localStorage.getItem('hostel');
                 {(role==2)?
                 <button className='btn btn-primary' onClick={handleAddMemberClick}>Add Member</button>:""
                 }
+
                 </div>
               )}
             </center>
