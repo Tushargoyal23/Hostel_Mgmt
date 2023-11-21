@@ -7,6 +7,7 @@ var cloudinary = require('cloudinary').v2;
 // Save data to local storage
 
 // cloudinary configuration
+// cloudinary configuration
 
 cloudinary.config({ 
     cloud_name: 'dq2s0016c', 
