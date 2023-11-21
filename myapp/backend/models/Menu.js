@@ -24,11 +24,11 @@ const menuSchema = new mongoose.Schema({
       required: true
     }]
   },
-  hostel:{
-    type: String,
-    required: true,
-    enum: ['Tandon', 'Malviya', 'Tilak']
-  }
+  // hostel:{
+  //   type: String,
+  //   required: true,
+  //   enum: ['Tandon', 'Malviya', 'Tilak']
+  // }
 });
 
 const Menu = mongoose.model('Menu', menuSchema);
