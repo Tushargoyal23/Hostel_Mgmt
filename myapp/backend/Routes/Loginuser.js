@@ -18,6 +18,9 @@ router.post('/login', async (req, res) => {
           .status(200)
           .send({ message: "Invlid EMail or Password", success: false });
       }
+      if(user.isBlock){
+        return res.status(200).send({message: "Temporarily blocked", success: false})
+      }
       const role=user.role;
       const hostel=user.hostel;
       //console.log(user.role)

@@ -29,8 +29,7 @@ const ComplainSchema = new Schema({
         // required:true
     },imageurl: {
         type: String, // Use Buffer to store binary data
-        // contentType: String,
-        required: true
+      
     }
 });
 

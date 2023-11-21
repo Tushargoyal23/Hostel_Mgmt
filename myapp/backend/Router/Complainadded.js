@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router()
-const Details = require('../models/Details') 
+const Details = require('../models/Details')  
 const { body , validationResult } = require('express-validator');
-const authenticateUser = require('../Malware');
+const User = require('../models/User') 
 var cloudinary = require('cloudinary').v2;
 // Save data to local storage
 
@@ -29,12 +29,13 @@ router.post('/addcomplain',[
         return res.status(400).json({errors : errors.array()});
     }
     console.log(req.body);
-    const file = req.files.img;
-
+    
+    const file = (req.files)?req.files.img:null;
+    if(file){
     cloudinary.uploader.upload(file.tempFilePath,async (err , result)=>{
         // console.log(result);
         try{
-            const user = await Details.findOne({ email: req.body.email });
+            const user = await User.findOne({ email: req.body.email });
             if(!user){
                 return res.json({  Success: false });
             }
@@ -55,31 +56,44 @@ router.post('/addcomplain',[
             res.json({Success:false});
         }
     })
+}
+    else{
+        try{
+            const user = await User.findOne({ email: req.body.email });
+            if(!user){
+                return res.json({  Success: false });
+            }
+            
+            await Details.create({
+                name:req.body.name,
+                title:req.body.title,
+                email:req.body.email,
+                description:req.body.description,
+                hostel:req.body.hostel,
+                imageurl:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg"
+            })
+            
+            
+            res.json({Success:true});
+        }catch (error){
+            console.log("error");
+            res.json({Success:false});
+        }
+    }
     
 })
 router.post('/imgtest' , (req , res, next)=>{
     console.log(req.body);
     const file = req.files.img;
+   
+
+    
     cloudinary.uploader.upload(file.tempFilePath,(err , result)=>{
         console.log(result);
     })
+
     res.json({Success:true});
 })
-
-// router.delete(`/delete/:id`,async(req , res)=>{
-//     const id = req.params.id;
-//     const filter = { _id:id };
-
-//     // Delete the document that matches the condition
-//     await Details.deleteOne(filter, (err, result) => {
-//       if (err) {
-//         console.error('Error deleting document:', err);
-//       } else {
-//         console.log('Document deleted successfully:', result);
-//       }
-// } )
-// module.exports = router;
-// const Details = require('../models/Details'); // Import your Mongoose model
 
 router.delete(`/delete/:id`, async (req, res) => {
   const id = req.params.id;

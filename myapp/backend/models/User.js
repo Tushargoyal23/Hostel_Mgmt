@@ -23,6 +23,10 @@ const UserSchema = new Schema({
     role:{
         type:String,
         default:"0"
+    }    ,
+    isBlock:{
+        type:Boolean,
+        default:false
     }    
 });
 

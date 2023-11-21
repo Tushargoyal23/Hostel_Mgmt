@@ -19,6 +19,10 @@ export default function Login() {
       })
       const json = await response.json();
       if(!json.success){
+        if(json.message==="Temporarily blocked"){
+          alert("You are blocked")
+        }
+        else
         alert("enter valid credentials")
       }
       if(json.success){

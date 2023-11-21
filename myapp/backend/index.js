@@ -14,6 +14,7 @@ app.use(fileupload({
 }))
 app.use(express.json())
 app.use('/api',require('./Router/Complainadded'));
+app.use('/api',require('./Router/BlockUser'));
 
 app.use('/api',require('./Router/MessMember'));
 

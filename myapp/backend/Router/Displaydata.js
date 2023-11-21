@@ -1,6 +1,7 @@
 const express = require('express')
 const { Routes } = require('react-router-dom');
-const Details = require('../models/Details') 
+const Details = require('../models/Details')
+const User = require('../models/User') 
 const router = express.Router()
 //calling the router
 router.post('/complaindata',async (req,res)=>{
@@ -13,6 +14,27 @@ router.post('/complaindata',async (req,res)=>{
         success: true,
         message: "users data list",
         data: complaints,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        success: false,
+        message: "erorr while fetching users",
+        error,
+      });
+    }
+  })
+  router.post('/userdata',async (req,res)=>{
+    try{
+        //sending the globalized data in response so that it can be use further
+        
+       const userData=await User.find({}).sort({ hostel: 1 });
+       console.log(userData)
+       //console.log(complaints);
+       res.status(200).send({
+        success: true,
+        message: "users data list",
+        data: userData,
       });
     } catch (error) {
       console.log(error);

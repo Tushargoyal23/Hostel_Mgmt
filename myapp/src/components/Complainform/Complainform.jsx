@@ -9,15 +9,6 @@ export default function Complainform() {
     const [credentials, setcredentials] = useState({ name: "", email: "", title: "", description: "" , img:"" });
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // const response = await fetch('http://localhost:5000/api/addcomplain', {
-        //     method: 'POST',
-        //     headers: {
-        //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({ name: credentials.name, email: credentials.email, title: credentials.title, description: credentials.description,hostel:localStorage.getItem("hostel") , img:credentials.img})
-        // })
-        // const json = await response.json();
         
         
         const form = document.getElementById('myForm');
@@ -36,6 +27,7 @@ export default function Complainform() {
     // Append the file to the FormData object
     formData.append('image', fileInput.files[0]);
   }
+  
 
   // Add other fields to FormData
 //   formData.append('name', credentials.name);
@@ -60,13 +52,6 @@ export default function Complainform() {
 
 
 
-        // if (!json.Success) {
-        //     alert("Enter a valid email")
-        // }
-        // if (json.Success) {
-        //     alert("complain submitted")
-        //     navigate('/complain');
-        // }
     }
     const Onchange = (event) => {
         setcredentials({ ...credentials, [event.target.name]: event.target.value })

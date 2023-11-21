@@ -18,6 +18,7 @@ import Open from './Screen/Open/Open';
 import Rules from './Screen/HostelRules/Rules';
 import ResForm from './components/ResForm/ResForm';
 import Mycomplain from './Screen/My Complains/Mycomplain';
+import Users from './components/Users/Users';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route exact path='/rules' element={<Rules></Rules>}></Route>
           <Route exact path='/resform/:id' element={<ResForm></ResForm>}></Route>
           <Route exact path='/mycomp' element={<Mycomplain></Mycomplain>}></Route>
+          <Route exact path='/users' element={<Users></Users>}></Route>
         </Routes>
       </div>
     </Router>

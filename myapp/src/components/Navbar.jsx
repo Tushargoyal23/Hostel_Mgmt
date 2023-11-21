@@ -2,6 +2,7 @@ import React from 'react'
 import { Link ,json,useNavigate} from 'react-router-dom'
 
 export default function Navbar() {
+    const role=localStorage.getItem("role")
     const navigate=useNavigate();
     const logouthandle=(e)=>{
        e.preventDefault();
@@ -26,9 +27,16 @@ export default function Navbar() {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/rules">Hostel rules</Link>
                             </li>
+                            {(role!=2)?
                             <li className="nav-item">
                                 <Link className="nav-link" to="/mycomp">My Complains</Link>
-                            </li>
+                            </li>:""
+}
+                                {(role==2)?
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/users">All Users</Link>
+                            </li>:""
+}
                             <li className="nav-item">
                                 <Link className="nav-link" to="/home">About Us</Link>
                             </li>
