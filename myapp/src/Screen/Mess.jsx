@@ -11,7 +11,8 @@ function Mess() {
     dinner: '',
     evening: '',
   });
-
+const role=localStorage.getItem('role');
+const hostel=localStorage.getItem('hostel');
   useEffect(() => {
     // Fetch menu data from the server
     fetch('http://localhost:5000/api/get-menu-for-week')
@@ -86,7 +87,7 @@ function Mess() {
   const [newMember, setNewMember] = useState({
     name: '',
     post: '',
-    hostel: '',
+    hostel: hostel,
   });
 
 
@@ -213,7 +214,7 @@ function Mess() {
   const [newcommiteeMember, setNewcommiteeMember] = useState({
     name: '',
     post: '',
-    hostel: '',
+    hostel: hostel,
   });
 
 
@@ -312,7 +313,7 @@ function Mess() {
     setNewcommiteeMember({
       name: '',
       post: '',
-      hostel: '',
+      hostel: hostel,
     });
   };
 
@@ -466,7 +467,11 @@ function Mess() {
                         <td>{member.name}</td>
                         <td>{member.post}</td>
                         <td>
-                          <button className='btn btn-danger' onClick={() => handleEditClick(member._id)}>Edit</button>
+                          <>
+                          {(role==2)?
+                          <button className='btn btn-danger' onClick={() => handleEditClick(member._id)}>Edit</button>:""
+                            }
+                          </>
                         </td>
                       </>
                     )}
@@ -490,17 +495,15 @@ function Mess() {
                     value={newMember.post}
                     onChange={(e) => setNewMember({ ...newMember, post: e.target.value })}
                   />
-                  <label>Hostel:</label>
-                  <input
-                    type="text"
-                    value={newMember.hostel}
-                    onChange={(e) => setNewMember({ ...newMember, hostel: e.target.value })}
-                  />
                   <button className='btn btn-success' onClick={handleAddMember}>Add Member</button>
                   <button className='btn btn-secondary' onClick={handleCancelAddMember}>Cancel</button>
                 </div>
               ) : (
-                <button className='btn btn-primary' onClick={handleAddMemberClick}>Add Member</button>
+                <div>
+                {(role==2)?
+                <button className='btn btn-primary' onClick={handleAddMemberClick}>Add Member</button>:""
+                }
+                </div>
               )}
             </center>
           </div>
@@ -549,7 +552,11 @@ function Mess() {
                         <td>{commiteemember.name}</td>
                         <td>{commiteemember.post}</td>
                         <td>
-                          <button className='btn btn-danger' onClick={() => handleEditcommiteeClick(commiteemember._id)}>Edit</button>
+                          <div>
+                            {(role==2)?
+                          <button className='btn btn-danger' onClick={() => handleEditcommiteeClick(commiteemember._id)}>Edit</button>:""
+                            }
+                            </div>
                         </td>
                       </>
                     )}
@@ -583,12 +590,18 @@ function Mess() {
                   <button className='btn btn-secondary' onClick={handleCancelAddcommiteeMember}>Cancel</button>
                 </div>
               ) : (
-                <button className='btn btn-primary' onClick={handleAddcommiteeMemberClick}>Add Member</button>
+                <div>
+                  {(role==2)?
+                <button className='btn btn-primary' onClick={handleAddcommiteeMemberClick}>Add Member</button>:""
+                  }
+                </div>
               )}
             </center>
           </div>
         </div>
       </div>
+      <>
+      {(role==0 || role==1)?
       <div className='container' id='info'>
         <h2>
           For any complain regarding menu and mess you can add it here.
@@ -596,7 +609,9 @@ function Mess() {
         <Link to='/complainform'>
           <button className='btn btn-warning'>Add Complain</button>
         </Link>
-      </div>
+      </div>:""
+}
+      </>
     </>
   );
 }

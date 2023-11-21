@@ -6,7 +6,7 @@ export default function Navbar() {
     const logouthandle=()=>{
        
        localStorage.removeItem("token");
-       navigate("/");
+       navigate("/home");
      }
     return (
         <div id='Navbar'>
