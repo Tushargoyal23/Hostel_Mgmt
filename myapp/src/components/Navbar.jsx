@@ -27,6 +27,9 @@ export default function Navbar() {
                                 <Link className="nav-link" to="/rules">Hostel rules</Link>
                             </li>
                             <li className="nav-item">
+                                <Link className="nav-link" to="/mycomp">My Complains</Link>
+                            </li>
+                            <li className="nav-item">
                                 <Link className="nav-link" to="/home">About Us</Link>
                             </li>
                         </ul>

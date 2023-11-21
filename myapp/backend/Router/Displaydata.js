@@ -23,6 +23,27 @@ router.post('/complaindata',async (req,res)=>{
       });
     }
   })
+
+  router.get('/complain/:id',async (req,res)=>{
+    try{
+        //sending the globalized data in response so that it can be use further
+        const id=req.params.id;
+       const complaint=await Details.findOne({_id:id});
+       console.log(complaint);
+       res.status(200).send({
+        success: true,
+        message: "users data list",
+        data: complaint,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        success: false,
+        message: "erorr while fetching users",
+        error,
+      });
+    }
+  })
   
     
 

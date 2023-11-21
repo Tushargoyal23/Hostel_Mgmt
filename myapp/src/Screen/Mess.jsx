@@ -14,10 +14,19 @@ function Mess() {
 
   useEffect(() => {
     // Fetch menu data from the server
-    fetch('http://localhost:5000/api/get-menu-for-week')
+    fetch('http://localhost:5000/api/get-menu-for-week', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        hostel:localStorage.getItem("hostel")
+      })
+    })
       .then(response => response.json())
       .then(menuData => setMenuData(menuData))
       .catch(error => console.error('Error fetching menu data:', error));
+      console.log(menuData)
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
   const handleEditButtonClick = (day) => {
@@ -37,6 +46,7 @@ function Mess() {
         body: JSON.stringify({
           day: editingDay,
           meals: updatedMenu,
+          hostel:localStorage.getItem("hostel")
         }),
       });
       console.log("");

@@ -26,6 +26,8 @@ export default function Login() {
 
         console.log(json.role);
         localStorage.setItem("role",json.role);
+        console.log(credentials.email);
+        localStorage.setItem("email",credentials.email);
        
         localStorage.setItem("hostel",json.hostel);
         
@@ -33,7 +35,7 @@ export default function Login() {
         
         
     //console.log(localStorage.getItem("role",credentials.role));
-        navigate('/');
+        navigate('/home');
 
       }
     }
