@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -29,6 +30,7 @@ export default function Signup() {
     })
     const json = await response.json();
     console.log(json);
+
     if(!json.success){
       alert("enter valid credentials")
     }

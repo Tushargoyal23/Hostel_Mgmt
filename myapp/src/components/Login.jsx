@@ -6,6 +6,7 @@ export default function Login() {
     
   let navigate = useNavigate();
     
+
   const[credentials , setcredentials] =useState({email: "" , password : ""});
     const handleSubmit = async(e) => {
       e.preventDefault();
@@ -41,7 +42,6 @@ export default function Login() {
         
     //console.log(localStorage.getItem("role",credentials.role));
         navigate('/home');
-
       }
     }
     const Onchange = (event) =>{
