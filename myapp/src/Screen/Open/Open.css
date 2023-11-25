@@ -1,0 +1,81 @@
+#open_head{
+    margin-top: 10%;
+    font-size: 5rem;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    font-weight: bold; /* Adjust the font weight as needed */
+  color: #ffffff; /* Set the text color */
+  -webkit-text-stroke: 2px #000000; /* Set the stroke width and color for WebKit browsers */
+}
+#open_body{
+    background-image: url(https://images2.alphacoders.com/521/521477.jpg);
+}
+
+/*body {
+    margin: 0;
+    padding: 0;
+    background: url('https://images2.alphacoders.com/521/521477.jpg') center/cover no-repeat; /* Replace with your image path */
+   /* height: 100vh; /* Make sure the body covers the entire viewport */
+   /* display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(243, 241, 241); /* You can adjust the color */
+/*}*/
+#expo{
+    width: 200px;
+    font-size: 2rem;
+    padding: 10px;
+    border: solid;
+    border-radius: 5%;
+    /* background: #000; */
+    color: #f4e8e8;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 40%;
+    font-weight: bold; /* Adjust the font weight as needed */
+  color: #ffffff; /* Set the text color */
+  -webkit-text-stroke: 1px #000000; /* Set the stroke width and color for WebKit browsers */
+    
+}
+  
+/* #open_head {
+    font-size: 2em;
+  } */
+/* Style the video: 100% width and height to cover the entire window */
+/* #myVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+  } */
+  
+  /* Add some content at the bottom of the video/page */
+  /* .content {
+    position: fixed;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #f1f1f1;
+    width: 100%;
+    padding: 20px;
+  } */
+  
+  /* Style the button used to pause/play the video */
+  /* #myBtn {
+    width: 200px;
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+  } */
+  
+  /* #myBtn:hover {
+    background: #ddd;
+    color: black;
+  } */

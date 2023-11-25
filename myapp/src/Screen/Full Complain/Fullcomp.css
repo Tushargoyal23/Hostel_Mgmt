@@ -1,0 +1,46 @@
+#full_comp{
+    background-color: black;
+}
+#comp_img{
+    width: 100%; /* make the image fill the entire width of the div */
+    height: 100%; /* make the image fill the entire height of the div */
+    object-fit: contain; /* scale the image to cover the entire container while maintaining its aspect ratio */
+    /* border-radius: 5%; */
+}
+#comp_cont {
+    width: 100%; /* set the width of your div */
+    height: 400px; /* set the height of your div */
+    overflow: hidden; /* hide any content that overflows the div */
+    /* background-color: black; */
+    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaLphi59Q6J-BH3Scjz97YjJdxnTHT7-so1tzvFvPGA01isjUyBXHzVk_E_Dkjagw9Lx8&usqp=CAU);
+    border: solid;
+    border-color: aliceblue;
+    /* padding-top: 2%; */
+    /* padding-bottom:2% ; */
+}
+#comp_body{
+    background-color: black;
+    color: aliceblue;
+    margin-top: 1%;
+}
+#comp_head{
+    padding-top: 0.5%;
+    background-color: rgb(48, 47, 47);
+    font-size: 2rem;
+    color: rgb(252, 245, 245);
+    text-align: left;
+    padding-left: 1%;
+}
+#comp_details{
+    background-color: rgb(66, 65, 65);
+    color: rgb(252, 245, 245);
+    text-align: center;
+    padding-bottom: 5%;
+}
+#comp_title{
+    font-size: 3.5rem;
+    padding-bottom: 0.5%;
+}
+#comp_des{
+    font-size: 1.35rem;
+}

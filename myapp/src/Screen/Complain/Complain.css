@@ -1,0 +1,18 @@
+#com_head{
+    background-color:rgb(238, 243, 246);
+    font-size: 3em;
+    border: solid;
+    text-align: center;
+    color: rgb(24, 24, 24);
+}
+#comp{
+    /* background-color: aqua; */
+    margin-top:5%;
+    margin-bottom: 5%;
+}
+#comp_post{
+    margin-left: 15%;
+}
+.comp_btn{
+    margin-left: 40%;
+}

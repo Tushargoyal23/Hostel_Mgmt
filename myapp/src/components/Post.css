@@ -2,10 +2,16 @@
     background-color: aliceblue;
 }
 #post{
-    max-width: 70%;
-    max-height: 400px;
+    max-width: 75%;
+    max-height: 500px;
+    border: solid;
+    border-color: black;
 }
 #post_img{
     height: 100%;
     overflow: hidden; 
+}
+#post_date{
+    margin-left: 70%;
+    font-size: 1.2rem;
 }

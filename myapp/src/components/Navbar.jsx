@@ -1,7 +1,17 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link ,json,useNavigate} from 'react-router-dom'
 
 export default function Navbar() {
+    const role=localStorage.getItem("role")
+    const navigate=useNavigate();
+
+    const logouthandle=(e)=>{
+       e.preventDefault();
+       localStorage.clear();
+       navigate("/");
+
+  
+     }
     return (
         <div id='Navbar'>
             <nav className="navbar navbar-expand-lg bg-light" style={{ height: "70px" }} id='nav'>
@@ -13,31 +23,48 @@ export default function Navbar() {
                     <div className="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className="nav-link active" aria-current="page" to="/">Home</Link>
+                                <Link className="nav-link active" aria-current="page" to="/home">Home</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">Hostel rules</Link>
+                                <Link className="nav-link" to="/rules">Hostel rules</Link>
                             </li>
+                            {(role!=2)?
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">Mess commitee</Link>
-                            </li>
+                                <Link className="nav-link" to="/mycomp">My Complains</Link>
+                            </li>:""
+}
+                                {(role==2)?
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">About Us</Link>
-                            </li>
+                                <Link className="nav-link" to="/users">All Users</Link>
+                            </li>:""
+}
+                            {/* <li className="nav-item">
+                                <Link className="nav-link" to="/aboutus">About Us</Link>
+                            </li> */}
                         </ul>
                     </div>
+                    {(!localStorage.getItem("token" , json.token))?
                     <div id='but'>
-                        <Link to ='/login'>
-                            <button className='btn' >Login</button>
+                        <Link to='/login'>
+                        <button className='btn'>Login</button>
                         </Link>
-                    </div>
+                    </div>:""}
+
+                    {(!localStorage.getItem("token" , json.token))?
                     <div id='but'>
-                    <Link to ='/createuser'>
-                            <button className='btn' >SignUp</button>
+                        <Link to='/createuser'>
+                        <button className='btn'>SignUp</button>
                         </Link>
-                    </div>
+                    </div>:
+                    <div id='but'>
+                    <Link >
+                    <button className='btn' onClick={logouthandle}>Logout</button>
+                    </Link>
+                </div>
+                    }
                 </div>
             </nav>
+            <div id='comp_head'>{localStorage.getItem('hostel')}</div>
         </div>
     )
 }

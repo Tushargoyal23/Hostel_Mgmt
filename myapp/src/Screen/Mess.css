@@ -1,5 +1,38 @@
 #head{
-    color: rgb(241, 243, 245);
-    padding-left:30%;
     margin-top: 5%;
+    color: azure;
+    text-align: center;
+}
+#table1{
+    max-width: 80%;
+    margin-left: 5%;
+}
+#mess_members{
+    margin-top: 5%;
+}
+#mess_head{
+    margin-bottom: 2%;
+    font-size: 3rem;
+    /* color: rgb(237, 235, 235); */
+    /* font-size: 24px; Adjust the font size as needed */
+  font-weight: bold; /* Adjust the font weight as needed */
+  color: #ffffff; /* Set the text color */
+  -webkit-text-stroke: 2px #000000; /* Set the stroke width and color for WebKit browsers */
+}
+#mess_det_head{
+    margin-left: 10%;
+    color: rgb(247, 241, 235);
+  font-weight: bold; /* Adjust the font weight as needed */
+    -webkit-text-stroke: 2px #000000; /* Set the stroke width and color for WebKit browsers */
+
+}
+#info{
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+#sum{
+    opacity: 0;
+}
+#rating{
+    margin-left: 0.5%;
 }

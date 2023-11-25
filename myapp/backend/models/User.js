@@ -1,28 +1,33 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const { Schema } = mongoose; // Use 'Schema' with an uppercase 'S'
-
-const userSchema = new Schema({
-    name: {
+// creating a schema 
+const UserSchema = new Schema({
+    name : {
         type: String,
-        required: true
+        required:true
     },
-    hostel: {
+    hostel:{
         type: String,
-        required: true
+        required:true,
+        enum: ['Tandon', 'Malviya', 'Tilak']
     },
-    registration_no: {
+    email :{
         type: String,
-        required: true
+        required:true
     },
-    password: {
+    password :{
         type: String,
-        required: true
+        required:true
     },
-    date: {
-        type: Date,
-        default: Date.now
-    }
+    role:{
+        type:String,
+        default:"0"
+    }    ,
+    isBlock:{
+        type:Boolean,
+        default:false
+    }    
 });
 
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model('user' , UserSchema)
