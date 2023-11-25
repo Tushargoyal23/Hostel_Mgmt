@@ -24,10 +24,11 @@ router.post('/login', async (req, res) => {
       const role=user.role;
       const hostel=user.hostel;
       //console.log(user.role)
+      const name=user.name;
       const token = jwt.sign({ id: user._id }, secretkey, {
         expiresIn: '24h',
       });
-      res.status(200).send({ message: "Login Success", success: true, token ,role,hostel,user});
+      res.status(200).send({ message: "Login Success", success: true, token ,role,hostel,user,name});
     } catch (error) {
       console.log(error);
       res.status(500).send({ message: `Error in Login CTRL ${error.message}` });

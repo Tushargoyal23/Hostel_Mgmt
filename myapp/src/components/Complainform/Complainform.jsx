@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 export default function Complainform() {
     let navigate = useNavigate();
    
-    const [credentials, setcredentials] = useState({ name: "", email: "", title: "", description: "" , img:"" });
+    const [credentials, setcredentials] = useState({ name: "", title: "", description: "" , img:"" });
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -19,6 +19,8 @@ export default function Complainform() {
   // Optionally, you can append additional key-value pairs to the FormData object
   formData.append('hostel', localStorage.getItem('hostel'));
 
+  formData.append('email', localStorage.getItem('email'));
+        console.log(formData);
   // Get the file input element
   const fileInput = document.getElementById('fileInput');
 
@@ -27,13 +29,6 @@ export default function Complainform() {
     // Append the file to the FormData object
     formData.append('image', fileInput.files[0]);
   }
-  
-
-  // Add other fields to FormData
-//   formData.append('name', credentials.name);
-//   formData.append('email', credentials.email);
-//   formData.append('title', credentials.title);
-//   formData.append('description', credentials.description);
 
   // Make a POST request using the fetch API
   fetch('http://localhost:5000/api/addcomplain', {
@@ -73,10 +68,10 @@ export default function Complainform() {
                         <label for="exampleFormControlInput1" className="form-label">Name :-{" "}</label>
                         <input type="text" className="form-control" id="exampleFormControlInput1" placeholder="name" name='name' value={credentials.name} onChange={Onchange}/>
                     </div>
-                    <div className="mb-3">
+                    {/* <div className="mb-3">
                         <label for="exampleFormControlInput1" className="form-label">Email address :-{" "}</label>
                         <input type="email" className="form-control" id="exampleFormControlInput1" placeholder="name@example.com" name='email' value={credentials.email} onChange={Onchange}/>
-                    </div>
+                    </div> */}
                     <div className="mb-3">
                         <label for="exampleFormControlInput1" className="form-label">Title :-{" "}</label>
                         <input type="text" className="form-control" id="exampleFormControlInput1" placeholder="title" value={credentials.title} name='title'onChange={Onchange}/>

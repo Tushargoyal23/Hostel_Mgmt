@@ -23,11 +23,11 @@ export default function ComplainList() {
   return (
     <div>
       {/*Post the requested complians*/}
-      <Post title='Hostel safety' url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPElmzWCeKaGAm9lOTJTYPJ9PqVQKVisTmpQ&usqp=CAU' date="2023-11-12T07:06:00.233Z"></Post>
+      {/* <Post title='Hostel safety' url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPElmzWCeKaGAm9lOTJTYPJ9PqVQKVisTmpQ&usqp=CAU' date="2023-11-12T07:06:00.233Z"></Post> */}
       {complains.map((data) => {
         return (
           data.isResponse ? (
-            <ResPost key={data._id} title={data.title} description={data.description} url={data.imageurl?data.imageurl:"https://source.unsplash.com/random/300x300/?random" } date={data.date} />
+            <ResPost key={data._id} title={data.title} description={data.description} url={data.imageurl?data.imageurl:"https://source.unsplash.com/random/300x300/?random" } date={data.date} Response={data.Response}/>
           ):""
         )
       })}

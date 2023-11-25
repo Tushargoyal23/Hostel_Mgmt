@@ -8,7 +8,8 @@ router.post('/complaindata',async (req,res)=>{
     try{
         //sending the globalized data in response so that it can be use further
         
-       const complaints=await Details.find({hostel:req.body.hostel});
+        const complaints=await Details.find({hostel:req.body.hostel}).sort({countupvote:-1,countdownvote:1});
+      
        //console.log(complaints);
        res.status(200).send({
         success: true,
@@ -28,8 +29,8 @@ router.post('/complaindata',async (req,res)=>{
     try{
         //sending the globalized data in response so that it can be use further
         
-       const userData=await User.find({}).sort({ hostel: 1 });
-       console.log(userData)
+       const userData=await User.find({ hostel: req.body.hostel});
+      
        //console.log(complaints);
        res.status(200).send({
         success: true,
@@ -66,7 +67,59 @@ router.post('/complaindata',async (req,res)=>{
       });
     }
   })
-  
+  router.post("/upvote/:id", async (req, res) => {
+    const id  = req.params.id;
+    const  email  = req.body.email;
+
+    try {
+        const complain = await Details.findOne({ _id: id });
+      
+        // Check if the user has already upvoted
+        const hasUpvoted = complain.votes.some(vote => vote.email === email && (vote.type === 'upvote' || vote.type === 'downvote'));
+        
+        if (!hasUpvoted) {
+          
+            // If the user hasn't upvoted yet, add an upvote
+            complain.votes.push({ email, type: 'upvote' });
+            complain.countupvote=complain.countupvote+1;
+            await complain.save();
+            return res.json({ success: true });
+        } else {
+           
+            return res.json({ success: false, message: 'User has already upvoted.' });
+        }
+    } catch (error) {
+        console.log(error);
+        return res.json({ success: false, message: 'Error upvoting complaint.' });
+    }
+});
+
+router.post("/downvote/:id", async (req, res) => {
+    const id = req.params.id;
+    const email = req.body.email;
+
+    try {
+        const complain = await Details.findOne({ _id: id });
+
+        // Check if the user has already downvoted
+        const hasDownvoted = complain.votes.some(vote => vote.email === email && (vote.type === 'downvote' || vote.type === 'upvote'));
+       // const hasUpvoted = complain.votes.some(vote => vote.email === email && vote.type === 'upvote');
+        if (!hasDownvoted) {
+         
+            // If the user hasn't downvoted yet, add a downvote
+            complain.votes.push({ email, type: 'downvote' });
+            complain.countdownvote=complain.countdownvote+1;
+            await complain.save();
+            return res.json({ success: true });
+        } else {
+            return res.json({ success: false, message: 'User has already downvoted.' });
+        }
+    } catch (error) {
+        console.log(error);
+        return res.json({ success: false, message: 'Error downvoting complaint.' });
+    }
+});
+
     
 
 // module to export the file

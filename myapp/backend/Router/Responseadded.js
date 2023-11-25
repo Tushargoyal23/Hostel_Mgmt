@@ -14,7 +14,8 @@ router.post(`/response`, async (req , res) =>{
         if(!complain){
             return res.json({  Success: false });
         }
-        
+        complain.date = Date.now();
+        console.log(complain.date);
        complain.Response=req.body.response;
        complain.isResponse=true;
       await  complain.save();

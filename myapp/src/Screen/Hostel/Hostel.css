@@ -1,0 +1,18 @@
+.hostel1 {
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+#hostel_chart{
+    background-color: aliceblue;
+}
+#table1{
+    margin-top: 2%;
+    /* padding-bottom: 2%; */
+}
+#tab_head{
+    margin-top: 2%;
+    color: rgb(13, 13, 13);
+    font-size: 2rem;
+}

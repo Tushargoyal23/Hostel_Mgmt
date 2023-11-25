@@ -11,7 +11,7 @@ export default function Signup() {
   });
   const [loading, setLoading] = useState(false);
 
-  const hostels = ['Tondon', 'Malviya', 'Tilak']; // Example list of hostels
+  const hostels = ['Tandon', 'Malviya', 'Tilak']; // Example list of hostels
 
   const handleSubmit = async (e) => {
     e.preventDefault();

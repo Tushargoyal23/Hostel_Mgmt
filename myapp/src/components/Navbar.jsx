@@ -5,10 +5,10 @@ export default function Navbar() {
     const role=localStorage.getItem("role")
     const navigate=useNavigate();
 
-    const logouthandle=()=>{
-       
-       localStorage.removeItem("token");
-       navigate("/home");
+    const logouthandle=(e)=>{
+       e.preventDefault();
+       localStorage.clear();
+       navigate("/");
 
   
      }
@@ -38,9 +38,9 @@ export default function Navbar() {
                                 <Link className="nav-link" to="/users">All Users</Link>
                             </li>:""
 }
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/home">About Us</Link>
-                            </li>
+                            {/* <li className="nav-item">
+                                <Link className="nav-link" to="/aboutus">About Us</Link>
+                            </li> */}
                         </ul>
                     </div>
                     {(!localStorage.getItem("token" , json.token))?
@@ -64,6 +64,7 @@ export default function Navbar() {
                     }
                 </div>
             </nav>
+            <div id='comp_head'>{localStorage.getItem('hostel')}</div>
         </div>
     )
 }

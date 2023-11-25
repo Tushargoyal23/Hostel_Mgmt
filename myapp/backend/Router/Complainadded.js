@@ -71,7 +71,7 @@ router.post('/addcomplain',[
                 email:req.body.email,
                 description:req.body.description,
                 hostel:req.body.hostel,
-                imageurl:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg"
+                imageurl:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS01IODKDd-XpRnvBbSDlcg6scby3AOYc2ZfA&usqp=CAU"
             })
             
             
@@ -83,18 +83,18 @@ router.post('/addcomplain',[
     }
     
 })
-router.post('/imgtest' , (req , res, next)=>{
-    console.log(req.body);
-    const file = req.files.img;
+// router.post('/imgtest' , (req , res, next)=>{
+//     console.log(req.body);
+//     const file = req.files.img;
    
 
     
-    cloudinary.uploader.upload(file.tempFilePath,(err , result)=>{
-        console.log(result);
-    })
+//     cloudinary.uploader.upload(file.tempFilePath,(err , result)=>{
+//         console.log(result);
+//     })
 
-    res.json({Success:true});
-})
+//     res.json({Success:true});
+// })
 
 router.delete(`/delete/:id`, async (req, res) => {
   const id = req.params.id;

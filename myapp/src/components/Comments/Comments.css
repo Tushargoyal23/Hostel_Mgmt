@@ -1,0 +1,27 @@
+#comment_body{
+    border: solid;
+    max-width: 50%;
+    margin-left: 5%;
+    font-size: 1.25rem;
+    margin-top: 2%;
+    margin-bottom: 0.5%;
+    border-color: aliceblue;
+    border-radius: 10px 20px;
+    overflow: hidden;
+}
+#comment_det{
+    padding-left: 3%;
+    background-color: rgb(60, 59, 59);
+}
+#comment_time{
+    padding-right: 3%;
+    text-align: right ;
+    background-color: rgb(60, 59, 59);
+}
+#comment_img{
+    max-width: 5%;
+    border-radius: 50%;
+}
+#comment_des{
+    padding-left: 1%;
+}

@@ -11,8 +11,9 @@ function Mess() {
     dinner: '',
     evening: '',
   });
-const role=localStorage.getItem('role');
-const hostel=localStorage.getItem('hostel');
+
+  const role = localStorage.getItem('role');
+  const hostel = localStorage.getItem('hostel');
   useEffect(() => {
     // Fetch menu data from the server
     fetch('http://localhost:5000/api/get-menu-for-week', {
@@ -21,7 +22,7 @@ const hostel=localStorage.getItem('hostel');
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        hostel:localStorage.getItem("hostel")
+        hostel: localStorage.getItem("hostel")
       })
     })
       .then(response => response.json())
@@ -31,7 +32,7 @@ const hostel=localStorage.getItem('hostel');
       .then(response => response.json())
       .then(members => setMembers(members))
       .catch(error => console.error('Error fetching member data:', error));
-      fetch('http://localhost:5000/api/commitee-members')
+    fetch('http://localhost:5000/api/commitee-members')
       .then(response => response.json())
       .then(commiteemembers => setcommiteeMembers(commiteemembers))
       .catch(error => console.error('Error fetching commitee  data:', error));
@@ -55,7 +56,7 @@ const hostel=localStorage.getItem('hostel');
         body: JSON.stringify({
           day: editingDay,
           meals: updatedMenu,
-          hostel:localStorage.getItem("hostel")
+          hostel: localStorage.getItem("hostel")
         }),
       });
       console.log("");
@@ -138,21 +139,6 @@ const hostel=localStorage.getItem('hostel');
 
       if (response.ok) {
         console.log(`Member ${editingMemberid} updated successfully`);
-        // Fetch updated members from the API
-        // setMembers(prevMemberData => {
-        //   const updatedMemberData = prevMemberData.map(mem => {
-        //     if (mem._id === editedMember._id) {
-        //       return {
-        //         ...mem,
-        //         name: editedMember.name,
-        //         post: editedMember.post
-        //       };
-        //     }
-        //     return mem;
-        //   });
-        //   return updatedMemberData;
-        // });
-        // Reset the editing state
         setEditingMemberid(null);
         window.location.reload();
       } else {
@@ -187,11 +173,6 @@ const hostel=localStorage.getItem('hostel');
         // Fetch updated members from the API
         // fetchMembers();
         setAddingMember(false);
-        // setNewMember({
-        //   name: '',
-        //   post: '',
-        //   hostel: '',
-        // });
         window.location.reload();
       } else {
         console.error('Failed to add member');
@@ -219,16 +200,18 @@ const hostel=localStorage.getItem('hostel');
     _id: '',
     name: '',
     post: '',
+    email: ''
   });
   const [addingcommiteeMember, setAddingcommiteeMember] = useState(false);
   const [newcommiteeMember, setNewcommiteeMember] = useState({
     name: '',
     post: '',
     hostel: hostel,
+    email: ''
   });
 
+  let sum = 0;
 
-  
   const handleEditcommiteeClick = (id) => {
     // console.log(member);
     setEditingcommiteeMemberid(id);
@@ -249,27 +232,13 @@ const hostel=localStorage.getItem('hostel');
         },
         body: JSON.stringify({
           name: updatedcommiteeMember.name,
-          post: updatedcommiteeMember.post
+          post: updatedcommiteeMember.post,
+          email: updatedcommiteeMember.email
         }),
       });
 
       if (response.ok) {
         console.log(`Member ${editingcommiteeMemberid} updated successfully`);
-        // Fetch updated members from the API
-        // setMembers(prevMemberData => {
-        //   const updatedMemberData = prevMemberData.map(mem => {
-        //     if (mem._id === editedMember._id) {
-        //       return {
-        //         ...mem,
-        //         name: editedMember.name,
-        //         post: editedMember.post
-        //       };
-        //     }
-        //     return mem;
-        //   });
-        //   return updatedMemberData;
-        // });
-        // Reset the editing state
         setEditingcommiteeMemberid(null);
         window.location.reload();
       } else {
@@ -324,10 +293,11 @@ const hostel=localStorage.getItem('hostel');
       name: '',
       post: '',
       hostel: hostel,
+      email: ''
     });
   };
 
-
+  console.log(menuData);
   return (
     <>
       <div>
@@ -346,9 +316,11 @@ const hostel=localStorage.getItem('hostel');
               <th scope="col">Lunch(12:30 pm to 2:30 pm)</th>
               <th scope="col">Evening(5:30 pm to 7:00 pm)</th>
               <th scope="col">Dinner(8:00 pm to 9:30 pm)</th>
-              {(localStorage.getItem("role")==1)?
-              <th scope="col">Actions</th>:""
-  }
+              {(role!=2)?
+              <th scope="col">Review</th>:""}
+              {(localStorage.getItem("role") == 1) ?
+                <th scope="col">Actions</th> : ""
+              }
             </tr>
           </thead>
           <tbody>
@@ -401,26 +373,64 @@ const hostel=localStorage.getItem('hostel');
                   <>
                     <td>{Array.isArray(dayMenu.meals.breakfast)
                       ? dayMenu.meals.breakfast.join(', ')
-                      : dayMenu.meals.breakfast}</td>
+                      : dayMenu.meals.breakfast}
+                      {
+                        dayMenu.ratings.breakfast.map((data) => {
+                          sum += data.value
+                        })
+                      }<div id='rating'>
+                        <span class="fa fa-star checked"></span>
+                        {sum / dayMenu.ratings.breakfast.length}
+                      </div>
+                      <div id='sum'>{sum = 0}</div></td>
                     <td>{Array.isArray(dayMenu.meals.lunch)
                       ? dayMenu.meals.lunch.join(', ')
-                      : dayMenu.meals.lunch}</td>
+                      : dayMenu.meals.lunch}
+                      {
+                        dayMenu.ratings.lunch.map((data) => {
+                          sum += data.value
+                        })
+                      }<div id='rating'>
+                        <span class="fa fa-star checked"></span>
+                        {sum / dayMenu.ratings.lunch.length}
+                      </div><div id='sum'>{sum = 0}</div></td>
                     <td>{Array.isArray(dayMenu.meals.evening)
                       ? dayMenu.meals.evening.join(', ')
-                      : dayMenu.meals.evening}</td>
+                      : dayMenu.meals.evening}
+                      {
+                        dayMenu.ratings.evening.map((data) => {
+                          sum += data.value
+                        })
+                      }<div id='rating'>
+                        <span class="fa fa-star checked"></span>
+                        {sum / dayMenu.ratings.evening.length}
+                      </div><div id='sum'>{sum = 0}</div></td>
                     <td>{Array.isArray(dayMenu.meals.dinner)
                       ? dayMenu.meals.dinner.join(', ')
-                      : dayMenu.meals.dinner}</td>
+                      : dayMenu.meals.dinner}
+                      {
+                        dayMenu.ratings.dinner.map((data) => {
+                          sum += data.value
+                        })
+                      }<div id='rating'>
+                        <span class="fa fa-star checked"></span>
+                        {sum / dayMenu.ratings.dinner.length}
+                      </div><div id='sum'>{sum = 0}</div></td>
+                      {(role != 2)?
+                    <td> <Link to={`/review/${dayMenu.day}`}>
+                      <button className='btn btn-success'>Review</button>
+                    </Link>
+                    </td>:""}
                     <td>
-                      {(localStorage.getItem("role")==1)?
-                      <button
-                        className='btn btn-danger'
-                        onClick={() => handleEditButtonClick(dayMenu.day)}
-                      >
-                        Edit
-                      </button>
-                      :""
-}
+                      {(localStorage.getItem("role") == 1) ?
+                        <button
+                          className='btn btn-danger'
+                          onClick={() => handleEditButtonClick(dayMenu.day)}
+                        >
+                          Edit
+                        </button>
+                        : ""
+                      }
                     </td>
                   </>
                 )}
@@ -445,9 +455,9 @@ const hostel=localStorage.getItem('hostel');
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
                   <th scope="col">Post</th>
-                  {(localStorage.getItem("role")==2)?
-                  <th scope="col">Edit details</th>:""
-}
+                  {(localStorage.getItem("role") == 2) ?
+                    <th scope="col">Edit details</th> : ""
+                  }
                   {/* <th scope="col">Date of joining </th> */}
                 </tr>
               </thead>
@@ -483,15 +493,13 @@ const hostel=localStorage.getItem('hostel');
                         {/* {console.log(member.name , index)} */}
                         <td>{member.name}</td>
                         <td>{member.post}</td>
-                        {(localStorage.getItem("role")==2)?
                         <td>
                           <>
-                          {(role==2)?
-                          <button className='btn btn-danger' onClick={() => handleEditClick(member._id)}>Edit</button>:""
+                            {(role == 2) ?
+                              <button className='btn btn-danger' onClick={() => handleEditClick(member._id)}>Edit</button> : ""
                             }
                           </>
                         </td>
-
                       </>
                     )}
                   </tr>
@@ -519,9 +527,9 @@ const hostel=localStorage.getItem('hostel');
                 </div>
               ) : (
                 <div>
-                {(role==2)?
-                <button className='btn btn-primary' onClick={handleAddMemberClick}>Add Member</button>:""
-                }
+                  {(role == 2) ?
+                    <button className='btn btn-primary' onClick={handleAddMemberClick}>Add Member</button> : ""
+                  }
 
                 </div>
               )}
@@ -535,7 +543,9 @@ const hostel=localStorage.getItem('hostel');
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
                   <th scope="col">Post</th>
-                  <th scope="col">Edit details</th>
+                  {(role == 2) ?
+                    <th scope="col">Edit details</th> : ""
+                  }
                   {/* <th scope="col">Date of joining </th> */}
                 </tr>
               </thead>
@@ -544,7 +554,7 @@ const hostel=localStorage.getItem('hostel');
                   <tr key={commiteemember._id}>
                     <th scope="row">{index + 1}</th>
 
-                    {(editingcommiteeMemberid ===commiteemember._id) ? (
+                    {(editingcommiteeMemberid === commiteemember._id) ? (
                       <>
                         <td>
                           {/* {console.log("nksdnkn")} */}
@@ -561,6 +571,13 @@ const hostel=localStorage.getItem('hostel');
                           />
                         </td>
                         <td>
+                          <input
+                            type="text"
+                            value={updatedcommiteeMember.email}
+                            onChange={(e) => setUpdatedcommiteeMember({ ...updatedcommiteeMember, email: e.target.value })}
+                          />
+                        </td>
+                        <td>
                           <button className='btn btn-success' onClick={() => handlecommiteeSave()}>Save</button>
                           <button className='btn btn-secondary' onClick={() => handlecommiteeCancelEdit()}>Cancel</button>
                         </td>
@@ -573,10 +590,10 @@ const hostel=localStorage.getItem('hostel');
                         <td>{commiteemember.post}</td>
                         <td>
                           <div>
-                            {(role==2)?
-                          <button className='btn btn-danger' onClick={() => handleEditcommiteeClick(commiteemember._id)}>Edit</button>:""
+                            {(role == 2) ?
+                              <button className='btn btn-danger' onClick={() => handleEditcommiteeClick(commiteemember._id)}>Edit</button> : ""
                             }
-                            </div>
+                          </div>
                         </td>
                       </>
                     )}
@@ -600,19 +617,20 @@ const hostel=localStorage.getItem('hostel');
                     value={newcommiteeMember.post}
                     onChange={(e) => setNewcommiteeMember({ ...newcommiteeMember, post: e.target.value })}
                   />
-                  <label>Hostel:</label>
+                  <label>Email:</label>
                   <input
                     type="text"
-                    value={newcommiteeMember.hostel}
-                    onChange={(e) => setNewcommiteeMember({ ...newcommiteeMember, hostel: e.target.value })}
+                    value={newcommiteeMember.email}
+                    onChange={(e) => setNewcommiteeMember({ ...newcommiteeMember, email: e.target.value })}
                   />
+
                   <button className='btn btn-success' onClick={handleAddcommiteeMember}>Add Member</button>
                   <button className='btn btn-secondary' onClick={handleCancelAddcommiteeMember}>Cancel</button>
                 </div>
               ) : (
                 <div>
-                  {(role==2)?
-                <button className='btn btn-primary' onClick={handleAddcommiteeMemberClick}>Add Member</button>:""
+                  {(role == 2) ?
+                    <button className='btn btn-primary' onClick={handleAddcommiteeMemberClick}>Add Member</button> : ""
                   }
                 </div>
               )}
@@ -621,16 +639,16 @@ const hostel=localStorage.getItem('hostel');
         </div>
       </div>
       <>
-      {(role==0 || role==1)?
-      <div className='container' id='info'>
-        <h2>
-          For any complain regarding menu and mess you can add it here.
-        </h2>
-        <Link to='/complainform'>
-          <button className='btn btn-warning'>Add Complain</button>
-        </Link>
-      </div>:""
-}
+        {(role == 0 || role == 1) ?
+          <div className='container' id='info'>
+            <h2>
+              For any complain regarding menu and mess you can add it here.
+            </h2>
+            <Link to='/complainform'>
+              <button className='btn btn-warning'>Add Complain</button>
+            </Link>
+          </div> : ""
+        }
       </>
     </>
   );

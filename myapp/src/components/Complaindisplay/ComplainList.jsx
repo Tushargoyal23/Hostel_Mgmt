@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Post from '../Post'
+import './ComplainList.css'
 import axios from "axios";
 export default function ComplainList() {
   const [complains, setcomplain] = useState([])
@@ -21,14 +22,16 @@ export default function ComplainList() {
   }, []);
   const role = localStorage.getItem("role");
   return (
-    <div>
+    <div id='post_id'>
       {/*Post the requested complians*/}
-      {/* {console.log(role)} */}
-      <Post title='Hostel safety' url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPElmzWCeKaGAm9lOTJTYPJ9PqVQKVisTmpQ&usqp=CAU' date="2023-11-12T07:06:00.233Z"></Post>
+      {/* <Post title='Hostel safety' url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPElmzWCeKaGAm9lOTJTYPJ9PqVQKVisTmpQ&usqp=CAU' date="2023-11-12T07:06:00.233Z"></Post> */}
       {complains.map((data) => {
+        // {console.log(data)}
         return (
           !data.isResponse ? (
-            <Post key={data._id} title={data.title} description={data.description} url={data.imageurl?data.imageurl:"https://source.unsplash.com/random/300x300/?food" }date={data.date} id={data._id}/>
+            <Post key={data._id} title={data.title} description={data.description} url={data.imageurl?data.imageurl:"https://source.unsplash.com/random/300x300/?food" }date={data.date} id={data._id} upvote={data.countupvote
+          } downvote={data.countdownvote
+          } />
           ):""
         )
       })}

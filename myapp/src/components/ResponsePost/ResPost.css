@@ -3,9 +3,24 @@
 }
 #post{
     max-width: 75%;
-    max-height: 400px;
+    max-height: 500px;
+    
 }
 #post_img{
     height: 100%;
     overflow: hidden; 
+}
+#part_1{
+    /* height: 100%;
+    overflow: hidden;  */
+    opacity: 0.5;
+}
+#res_hr{
+    height: 20px;
+    background: rgb(12, 12, 12);
+}
+#resp_sec{
+    background-color: rgb(11, 11, 11);
+    
+    color: aliceblue;
 }

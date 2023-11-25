@@ -1,0 +1,16 @@
+.hostel1 {
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+#hostel_chart{
+    background-color: aliceblue;
+}
+#item_chart{
+    background-color: beige;
+}
+#pie_chart{
+    /* background-color: rgb(207, 216, 203); */
+    margin-top: 2%;
+}

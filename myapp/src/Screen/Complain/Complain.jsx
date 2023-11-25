@@ -12,7 +12,7 @@ export default function Complain() {
             <Navbar></Navbar>
             <div className='container' id='comp'>
                 {/* heading */}
-                <div id='comp_head'>Complains</div>
+                <div id='com_head'>Complains</div>
                 <div>
                     <ComplainList></ComplainList>
                 </div>

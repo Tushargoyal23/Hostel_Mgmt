@@ -1,9 +1,9 @@
-#comp_head{
-    background-color:aliceblue;
+#com_head{
+    background-color:rgb(238, 243, 246);
     font-size: 3em;
     border: solid;
     text-align: center;
-    color: black;
+    color: rgb(24, 24, 24);
 }
 #comp{
     /* background-color: aqua; */

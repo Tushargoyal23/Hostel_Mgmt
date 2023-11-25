@@ -9,6 +9,7 @@ router.post('/add-items' , async (req , res)=> {
         const item = new Items({
             name:name,
             price:Price,
+            category:req.body.category,
             hostel:req.body.hostel
         })
         await item.save();

@@ -20,7 +20,7 @@ app.use('/api',require('./Router/BlockUser'));
 app.use('/api',require('./Router/Account'));
 
 app.use('/api',require('./Router/MessMember'));
-
+app.use('/api',require('./Router/comment'));
 app.use('/api',require('./Router/Edit_menu'));
 
 app.use('/api',require('./Router/MessCommitee'));
@@ -30,6 +30,7 @@ app.use('/api',require('./Routes/CreateUser'));
 app.use('/api',require('./Routes/Loginuser'));
 app.use('/api',require('./Router/Edit_menu'))
 app.use('/api',require('./Router/Responseadded'))
+app.use('/api',require('./Router/reatedmenu'))
 // Create a Complain model
 
 app.listen(port, () => {

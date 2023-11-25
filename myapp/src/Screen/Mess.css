@@ -30,3 +30,9 @@
     margin-top: 10%;
     margin-bottom: 10%;
 }
+#sum{
+    opacity: 0;
+}
+#rating{
+    margin-left: 0.5%;
+}

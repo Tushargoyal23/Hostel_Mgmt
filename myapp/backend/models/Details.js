@@ -30,7 +30,32 @@ const ComplainSchema = new Schema({
     },imageurl: {
         type: String, // Use Buffer to store binary data
       
+    },comments:{
+        type:Array,
+        items: {
+            type:Object,
+            properties:{
+                name:{type: String},
+                email:{type: String},
+                text:{type: String},
+                date:{type: Date,default: Date.now}
+            },
+        },
+        default:[]
+    },votes: [{
+        email: { type: String },
+        
+        type: { type: String, enum: ['upvote', 'downvote'] },
+    }],
+    countupvote:{
+        type:Number,
+        default:0
+    },
+    countdownvote:{
+        type:Number,
+        default:0
     }
+
 });
 
 module.exports = mongoose.model('complain' , ComplainSchema)

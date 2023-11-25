@@ -32,7 +32,8 @@ export default function Login() {
         localStorage.setItem("role",json.role);
         console.log(credentials.email);
         localStorage.setItem("email",credentials.email);
-       
+        localStorage.setItem("name",json.name);
+        
         localStorage.setItem("hostel",json.hostel);
         
        
