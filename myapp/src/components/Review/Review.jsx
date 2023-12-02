@@ -52,7 +52,7 @@ export default function Review() {
             </div>
             <div className='container' id="form_details">
                 <div>
-                    <h1 id='complain_head'>Complain Panel</h1>
+                    <h1 id='complain_head'>Review Panel</h1>
                 </div>
                 <form onSubmit={handleSubmit} id="myForm">
 
@@ -99,7 +99,7 @@ export default function Review() {
         </div>
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>  
-                <Link to='/hostel' className='m-3 btn btn-danger'>Back</Link>
+                <Link to='/mess' className='m-3 btn btn-danger'>Back</Link>
                 </form>
             </div>
         </div>
