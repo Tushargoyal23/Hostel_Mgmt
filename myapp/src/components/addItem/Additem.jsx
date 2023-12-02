@@ -49,7 +49,7 @@ export default function Additem() {
             </div>
             <div className='container' id="form_details">
                 <div>
-                    <h1 id='complain_head'>Complain Panel</h1>
+                    <h1 id='complain_head'>Add Daily Items</h1>
                 </div>
                 <form onSubmit={handleSubmit} id="myForm">
 

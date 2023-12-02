@@ -10,61 +10,6 @@ export default function Fullcomp() {
   const [description, setdescription] = useState("");
   const [response, setresponse] = useState("");
   const [x, setx] = useState(0);
-  const [voted, setVoted] = useState(false);
-  const [votesCount, setVotesCount] = useState(complain.votes.length);
-
-
-  const handleUpvote = async () => {
-    try {
-      const res = await fetch(`http://localhost:5000/api/upvote/${id}`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email: localStorage.getItem('email') })
-      });
-
-      const result = await res.json();
-
-      if (result.success) {
-        setVoted(true);
-        setVotesCount(votesCount + 1);
-      } else {
-        alert("Error upvoting complaint");
-      }
-    } catch (error) {
-      console.error('Error upvoting complaint:', error);
-      alert("Error upvoting complaint");
-    }
-  };
-
-  const handleDownvote = async () => {
-    try {
-      const res = await fetch(`http://localhost:5000/api/downvote/${id}`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email: localStorage.getItem('email') })
-      });
-
-      const result = await res.json();
-
-      if (result.success) {
-        setVoted(true);
-        setVotesCount(votesCount - 1);
-      } else {
-        alert("Error downvoting complaint");
-      }
-    } catch (error) {
-      console.error('Error downvoting complaint:', error);
-      alert("Error downvoting complaint");
-    }
-  };
-
-
 
 
 
@@ -97,9 +42,7 @@ export default function Fullcomp() {
         // Reset the response state
         setresponse("");
         handlechange();
-      } else {
-        alert("Error adding comment");
-      }
+      } 
     } catch (error) {
       console.error('Error adding comment:', error);
       alert("Error adding comment");
